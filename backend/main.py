@@ -7,6 +7,7 @@ from routes.daily_prices import daily_price_router
 from routes.gold_items import gold_items_router
 from routes.silver_items import silver_items_router
 from routes.dashboard import dashboard_router
+from fastapi.middleware.cors import CORSMiddleware
 import models.models
 
 
@@ -24,3 +25,11 @@ app.include_router(daily_price_router)
 app.include_router(gold_items_router)
 app.include_router(silver_items_router)
 app.include_router(dashboard_router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
