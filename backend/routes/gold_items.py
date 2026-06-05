@@ -1,11 +1,18 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from models.schemas import GoldItemCreate, GoldItemSell, GoldItemResponse
-from models.models import GoldItem
+from models.models import GoldItem, ItemType
 from sqlalchemy.orm import Session
 from dependencies import get_current_user
 from database import get_db
 from datetime import datetime, timezone
-
+from crud.items_crud import (
+    itemAdd,
+    itemGet,
+    itemGetSold,
+    itemGetSingle,
+    itemSell,
+    itemDelete,
+)
 
 gold_items_router = APIRouter(prefix="/gold")
 
@@ -16,30 +23,19 @@ def addItem(
     user_id: int = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    to_add = GoldItem(
-        item_type_id=item.item_type_id,
-        weight_tola=item.weight_tola,
-        karat=item.karat,
-        purchase_price=item.purchase_price,
-    )
-    db.add(to_add)
-    db.commit()
-    db.refresh(to_add)
-    return to_add
+    return itemAdd(db, item, GoldItem)
 
 
 @gold_items_router.get("/", response_model=list[GoldItemResponse])
 def getItem(user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
-    items = db.query(GoldItem).filter(GoldItem.is_sold == False).all()
-    return items
+    return itemGet(db, GoldItem)
 
 
 @gold_items_router.get("/sold", response_model=list[GoldItemResponse])
 def getSoldItem(
     user_id: int = Depends(get_current_user), db: Session = Depends(get_db)
 ):
-    items = db.query(GoldItem).filter(GoldItem.is_sold).all()
-    return items
+    return itemGetSold(db, GoldItem)
 
 
 @gold_items_router.get("/{item_id}", response_model=GoldItemResponse)
@@ -48,13 +44,13 @@ def getSingleItem(
     user_id: int = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    item = db.query(GoldItem).filter(GoldItem.id == item_id).first()
-    if not item:
+    to_return = itemGetSingle(db, item_id, GoldItem)
+
+    if to_return is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="No such item"
         )
-
-    return item
+    return to_return
 
 
 @gold_items_router.put("/{item_id}/sell", response_model=GoldItemResponse)
@@ -64,25 +60,17 @@ def sellItem(
     user_id: int = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    item = db.query(GoldItem).filter(GoldItem.id == item_id).first()
+    to_return = itemSell(db, item_id, sell_price, GoldItem)
 
-    if not item:
+    if to_return is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="No such item"
         )
-
-    if item.is_sold:
+    if to_return == "ALREADY_SOLD":
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Item has already been sold"
+            status_code=status.HTTP_404_NOT_FOUND, detail="Item has already been sold"
         )
-
-    item.selling_price = sell_price.selling_price
-    item.is_sold = True
-    item.sold_at = datetime.now(timezone.utc)
-    db.commit()
-    db.refresh(item)
-
-    return item
+    return
 
 
 @gold_items_router.delete("/{item_id}")
@@ -91,19 +79,15 @@ def deleteItem(
     user_id: int = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    item = db.query(GoldItem).filter(GoldItem.id == item_id).first()
+    to_return = itemDelete(db, item_id, GoldItem)
 
-    if not item:
+    if to_return is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="No such item"
         )
-
-    if item.is_sold:
+    if to_return == "ALREADY_SOLD":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Cannot delete sold item"
         )
 
-    db.delete(item)
-    db.commit()
-
-    return {"status": "item deleted successfully"}
+    return

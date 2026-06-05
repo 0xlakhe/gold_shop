@@ -1,11 +1,18 @@
 from fastapi import APIRouter, HTTPException, Depends, status
 from models.schemas import SilverItemCreate, SilverItemSell, SilverItemResponse
-from models.models import SilverItem
+from models.models import SilverItem, ItemType
 from dependencies import get_current_user
 from sqlalchemy.orm import Session
 from database import get_db
 from datetime import datetime, timezone
-
+from crud.items_crud import (
+    itemAdd,
+    itemGet,
+    itemGetSold,
+    itemGetSingle,
+    itemDelete,
+    itemSell,
+)
 
 silver_items_router = APIRouter(prefix="/silver")
 
@@ -16,31 +23,29 @@ def addItem(
     user_id: int = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    to_add = SilverItem(
-        item_type_id=item.item_type_id,
-        weight_tola=item.weight_tola,
-        purchase_price=item.purchase_price,
-        purity_percent=item.purity_percent,
-    )
-    db.add(to_add)
-    db.commit()
-    db.refresh(to_add)
-
-    return to_add
+    return itemAdd(db, item, SilverItem)
 
 
 @silver_items_router.get("/", response_model=list[SilverItemResponse])
 def getItem(user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
-    items = db.query(SilverItem).filter(SilverItem.is_sold == False).all()
-    return items
+    # items = db.query(SilverItem, ItemType.name).join(SilverItem, SilverItem.id==ItemType.id).filter(SilverItem.is_sold == False).all()
+    # response_data=[]
+    # for item, item_name in items:
+    #     item.item_type_name=item_name
+    #     response_data.append(item)
+    return itemGet(db, SilverItem)
 
 
 @silver_items_router.get("/sold", response_model=list[SilverItemResponse])
 def getSoldItem(
     user_id: int = Depends(get_current_user), db: Session = Depends(get_db)
 ):
-    items = db.query(SilverItem).filter(SilverItem.is_sold).all()
-    return items
+    # items = db.query(SilverItem, ItemType.name).join(SilverItem, SilverItem.id==ItemType.id).filter(SilverItem.is_sold).all()
+    # response_data=[]
+    # for item, item_name in items:
+    #     item.item_type_name=item_name
+    #     response_data.append(item)
+    return itemGetSold(db, SilverItem)
 
 
 @silver_items_router.get("/{item_id}", response_model=SilverItemResponse)
@@ -49,14 +54,13 @@ def getSingleItem(
     user_id: int = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    item = db.query(SilverItem).filter(SilverItem.id == item_id).first()
+    to_return = itemGetSingle(db, item_id, SilverItem)
 
-    if not item:
+    if to_return is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="No such item"
         )
-
-    return item
+    return to_return
 
 
 @silver_items_router.put("/{item_id}/sell", response_model=SilverItemResponse)
@@ -66,26 +70,17 @@ def sellItem(
     user_id: int = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    item = db.query(SilverItem).filter(SilverItem.id == item_id).first()
+    to_return = itemSell(db, item_id, sell_price, SilverItem)
 
-    if not item:
+    if to_return is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="No such item"
         )
-
-    if item.is_sold:
+    if to_return == "ALREADY_SOLD":
         raise HTTPException(
-            status_code=status.HTTP_406_NOT_ACCEPTABLE, detail="Item already sold"
+            status_code=status.HTTP_404_NOT_FOUND, detail="Item has already been sold"
         )
-
-    item.is_sold = True
-    item.selling_price = sell_price.selling_price
-    item.sold_at = datetime.now(timezone.utc)
-
-    db.commit()
-    db.refresh(item)
-
-    return item
+    return
 
 
 @silver_items_router.delete("/{item_id}")
@@ -94,19 +89,15 @@ def deleteItem(
     user_id: int = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    item = db.query(SilverItem).filter(SilverItem.id == item_id).first()
+    to_return = itemDelete(db, item_id, SilverItem)
 
-    if not item:
+    if to_return is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="No such item"
         )
-
-    if item.is_sold:
+    if to_return == "ALREADY_SOLD":
         raise HTTPException(
-            status_code=status.HTTP_406_NOT_ACCEPTABLE, detail="Cannot delete sold item"
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Cannot delete sold item"
         )
 
-    db.delete(item)
-    db.commit()
-
-    return {"status": "deleted successfully"}
+    return

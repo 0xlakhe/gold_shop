@@ -12,7 +12,7 @@ function Login() {
     try {
       const res = await login({ identifier, password });
       localStorage.setItem("token", res.data.access_token);
-      console.log(email, password);
+      console.log(identifier, password);
       navigate("/dashboard");
     } catch (err) {
       setError("Invalid credentials");

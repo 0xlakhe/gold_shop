@@ -18,6 +18,9 @@ class UserLogin(BaseModel):
 class ItemTypeCreate(BaseModel):
     name: str
 
+class ItemTypeResponse(BaseModel):
+    id: int
+    name: str
 
 class Token(BaseModel):
     access_token: str
@@ -58,12 +61,13 @@ class GoldItemSell(BaseModel):
 class GoldItemResponse(BaseModel):
     id: int
     item_type_id: int
+    item_type_name: str | None = None
     weight_tola: Decimal
     karat: int
     purchase_price: Decimal
     is_sold: bool
-    selling_price: Decimal | None
-    sold_at: datetime | None
+    selling_price: Decimal | None = None
+    sold_at: datetime | None = None
     created_at: datetime
 
     class Config:
@@ -73,15 +77,18 @@ class GoldItemResponse(BaseModel):
 class SilverItemCreate(BaseModel):
     item_type_id: int
     weight_tola: Decimal
-    purity_percent : Decimal = Field(default=100.0, gt=0.0, le=100)
+    purity_percent: Decimal = Field(default=100.0, gt=0.0, le=100)
     purchase_price: Decimal
+
 
 class SilverItemSell(BaseModel):
     selling_price: Decimal
 
+
 class SilverItemResponse(BaseModel):
     id: int
     item_type_id: int
+    item_type_name: str | None=None
     weight_tola: Decimal
     purity_percent: Decimal = 100
     is_sold: bool
@@ -90,14 +97,14 @@ class SilverItemResponse(BaseModel):
     created_at: datetime
 
     class Config:
-        from_attributes= True
+        from_attributes = True
 
 
 class InventoryMetrics(BaseModel):
     total_items: int
     total_value: float
     items_by_types: dict[str, int]
- 
+
 
 class MonthlySummary(BaseModel):
     gold_sold: int
@@ -105,6 +112,7 @@ class MonthlySummary(BaseModel):
     silver_sold: int
     silver_profit: float
     total_profit: float
+
 
 class DashboardResponse(BaseModel):
     today_gold_price: float

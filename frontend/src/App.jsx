@@ -6,6 +6,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ItemTypes from "./pages/ItemTypes";
 import Inventory from "./pages/Inventory";
 import Prices from "./pages/Prices";
+import SoldItems from "./pages/SoldItems";
 
 function App() {
   return (
@@ -41,6 +42,14 @@ function App() {
         element={
           <ProtectedRoute>
             <Prices />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sold-items"
+        element={
+          <ProtectedRoute>
+            <SoldItems />
           </ProtectedRoute>
         }
       />

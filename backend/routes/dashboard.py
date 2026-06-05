@@ -5,7 +5,7 @@ from dependencies import get_current_user
 from models.models import DailyPrice, GoldItem, ItemType, SilverItem
 from datetime import date, datetime, timezone
 from sqlalchemy import func
-from crud import dashboard
+from crud import dashboard_crud
 from models.schemas import DashboardResponse, InventoryMetrics, MonthlySummary
 
 dashboard_router = APIRouter(prefix="/dashboard")
@@ -141,17 +141,17 @@ def getInfo(user_id: int = Depends(get_current_user), db: Session = Depends(get_
     # return ans
     # endregion
 
-    gold_price, silver_price, price_note = dashboard.get_latest_price(db)
+    gold_price, silver_price, price_note = dashboard_crud.get_latest_price(db)
     unsold_gold_count, unsold_gold_purchase_price, unsold_gold_items = (
-        dashboard.get_gold_inventory_summary(db)
+        dashboard_crud.get_inventory_summary(db, GoldItem)
     )
     unsold_silver_count, unsold_silver_purchase_price, unsold_silver_items = (
-        dashboard.get_silver_inventory_summary(db)
+        dashboard_crud.get_inventory_summary(db,SilverItem)
     )
 
     date_now = datetime.now(timezone.utc)
     start_of_month = datetime(date_now.year, date_now.month, 1, tzinfo=timezone.utc)
-    gold_m, silver_m = dashboard.get_monthly_sales_matrics(db, start_of_month, date_now)
+    gold_m, silver_m = dashboard_crud.get_monthly_sales_matrics(db, start_of_month, date_now)
 
     gold_profit = gold_m.profit or 0
     silver_profit = silver_m.profit or 0
