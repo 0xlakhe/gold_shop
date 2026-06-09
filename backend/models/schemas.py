@@ -18,9 +18,11 @@ class UserLogin(BaseModel):
 class ItemTypeCreate(BaseModel):
     name: str
 
+
 class ItemTypeResponse(BaseModel):
     id: int
     name: str
+
 
 class Token(BaseModel):
     access_token: str
@@ -36,6 +38,7 @@ class DailyPriceResponse(BaseModel):
     id: int
     gold_price_per_tola: float
     silver_price_per_tola: float
+    date: datetime
 
     class Config:
         from_attributes = True
@@ -88,7 +91,7 @@ class SilverItemSell(BaseModel):
 class SilverItemResponse(BaseModel):
     id: int
     item_type_id: int
-    item_type_name: str | None=None
+    item_type_name: str | None = None
     weight_tola: Decimal
     purity_percent: Decimal = 100
     is_sold: bool

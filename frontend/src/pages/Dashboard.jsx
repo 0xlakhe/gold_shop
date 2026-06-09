@@ -87,7 +87,6 @@ function Dashboard() {
           <p className="font-bold text-xl">This Month Report</p>
           <div className="gold-report">
             <p>
-                
               Total Gold Items sold:{" "}
               <Link to="/sold-items" state={{ isGold: true }}>
                 {data.this_month.gold_sold}
@@ -103,7 +102,7 @@ function Dashboard() {
           <div>
             <p>
               Total profit:
-              {data.this_month.gold_profit + data.this_month.silver_profit}
+              {data.this_month.total_profit}
             </p>
           </div>
         </div>
