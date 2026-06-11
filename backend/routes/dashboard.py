@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database import get_db
 from dependencies import get_current_user
-from models.models import DailyPrice, GoldItem, ItemType, SilverItem
+from models.models import DailyPrice, GoldItem, ItemType, SilverItem, User
 from datetime import date, datetime, timezone
 from sqlalchemy import func
 from crud import dashboard_crud
@@ -12,7 +12,7 @@ dashboard_router = APIRouter(prefix="/dashboard")
 
 
 @dashboard_router.get("/", response_model=DashboardResponse)
-def getInfo(user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
+def getInfo(user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     # region all in one
     # latest_price = db.query(DailyPrice).order_by(DailyPrice.date.desc()).first()
 
@@ -141,17 +141,19 @@ def getInfo(user_id: int = Depends(get_current_user), db: Session = Depends(get_
     # return ans
     # endregion
 
-    gold_price, silver_price, price_note = dashboard_crud.get_latest_price(db)
+    gold_price, silver_price, price_note = dashboard_crud.get_latest_price(db, user.id)
     unsold_gold_count, unsold_gold_purchase_price, unsold_gold_items = (
-        dashboard_crud.get_inventory_summary(db, GoldItem)
+        dashboard_crud.get_inventory_summary(db, user.id, GoldItem)
     )
     unsold_silver_count, unsold_silver_purchase_price, unsold_silver_items = (
-        dashboard_crud.get_inventory_summary(db,SilverItem)
+        dashboard_crud.get_inventory_summary(db, user.id, SilverItem)
     )
 
     date_now = datetime.now(timezone.utc)
     start_of_month = datetime(date_now.year, date_now.month, 1, tzinfo=timezone.utc)
-    gold_m, silver_m = dashboard_crud.get_monthly_sales_matrics(db, start_of_month, date_now)
+    gold_m, silver_m = dashboard_crud.get_monthly_sales_matrics(
+        db, user.id, start_of_month, date_now
+    )
 
     gold_profit = gold_m.profit or 0
     silver_profit = silver_m.profit or 0

@@ -8,5 +8,5 @@ wheels/
 
 # Virtual environments
 .venv
-
+gold_inventory.code-workspace
 .env

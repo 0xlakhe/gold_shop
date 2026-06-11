@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from models.schemas import DailyPriceCreate, DailyPriceResponse
 from dependencies import get_current_user
-from models.models import DailyPrice
+from models.models import DailyPrice, User
+from crud.daily_prices_crud import set_price, get_price
 from database import get_db
 from sqlalchemy.orm import Session
 from datetime import date
@@ -12,7 +13,7 @@ daily_price_router = APIRouter(prefix="/prices")
 @daily_price_router.post("/", response_model=DailyPriceResponse)
 def setPrice(
     price: DailyPriceCreate,
-    user_id: int = Depends(get_current_user),
+    user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
 
@@ -36,33 +37,11 @@ def setPrice(
     # today_price=result.scalar_one()
     # endregion
 
-    today_date = date.today()
-
-    db_price = db.query(DailyPrice).filter(DailyPrice.date == today_date).first()
-
-    if db_price:
-        db_price.gold_price_per_tola = price.gold_price_per_tola
-        db_price.silver_price_per_tola = price.silver_price_per_tola
-        updated_price = db_price
-        status_msg = "price updated successfully"
-    else:
-        new_price = DailyPrice(
-            date=today_date,
-            gold_price_per_tola=price.gold_price_per_tola,
-            silver_price_per_tola=price.silver_price_per_tola,
-        )
-        db.add(new_price)
-        updated_price = new_price
-        status_msg = "price set successfully"
-
-    db.commit()
-    db.refresh(updated_price)
-
-    return updated_price
+    return set_price(db, user.id, price)
 
 
 @daily_price_router.get("/latest", response_model=DailyPriceResponse)
-def getPrice(user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
+def getPrice(user: User = Depends(get_current_user), db: Session = Depends(get_db)):
 
     # region today/yesterday
     # today=date.today()
@@ -76,22 +55,12 @@ def getPrice(user_id: int = Depends(get_current_user), db: Session = Depends(get
 
     # endregion
 
-    latest_price = db.query(DailyPrice).order_by(DailyPrice.date.desc()).first()
-
-    if not latest_price:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="No daily price data exists in the database history",
-        )
-
-    return latest_price
+    return get_price(db, user.id)
 
 
 @daily_price_router.get("/history", response_model=list[DailyPriceResponse])
-def getAllPrices(
-    user_id: int = Depends(get_current_user), db: Session = Depends(get_db)
-):
+def getAllPrices(user: User = Depends(get_current_user), db: Session = Depends(get_db)):
 
-    prices = db.query(DailyPrice).all()
+    prices = db.query(DailyPrice).filter(DailyPrice.user_id == user.id).all()
 
     return prices

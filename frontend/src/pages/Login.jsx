@@ -25,15 +25,20 @@ function Login() {
         type="text"
         placeholder="Username or email"
         value={identifier}
+        className="border border-amber-200"
         onChange={(e) => setIdentifier(e.target.value)}
       />
       <input
         type="password"
         placeholder="Password"
+        className="border border-amber-200"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={handleSubmit}>Login</button>
+      <button className="bg-amber-200 hover:cursor-pointer" onClick={handleSubmit}>Login</button>
+      <br />
+      <br />
+      <button className="font-bold text-amber-300 hover:cursor-pointer" onClick={()=>navigate("/register")}>Register here</button>
     </div>
   );
 }

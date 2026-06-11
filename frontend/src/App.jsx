@@ -7,10 +7,12 @@ import ItemTypes from "./pages/ItemTypes";
 import Inventory from "./pages/Inventory";
 import Prices from "./pages/Prices";
 import SoldItems from "./pages/SoldItems";
+import Register from "./pages/Register";
 
 function App() {
   return (
     <Routes>
+      <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/" element={<Navigate to="/dashboard" />} />
       <Route

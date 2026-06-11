@@ -57,19 +57,19 @@ function InventorySection({
     if (title.toLowerCase().includes("gold")) {
       try {
         await sellGoldItem(id, { selling_price: sellingPrice });
-        callRefresh?.();
       } catch (err) {
         console.log(err);
       } finally {
+        callRefresh?.();
         alert("sold");
       }
     } else {
       try {
         await sellSilverItem(id, { selling_price: sellingPrice });
-        callRefresh?.();
       } catch (err) {
         console.log(err);
       } finally {
+        callRefresh?.();
         alert("sold");
       }
     }

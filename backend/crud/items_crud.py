@@ -13,10 +13,12 @@ from typing import Type
 
 def itemAdd(
     db: Session,
+    user_id: int,
     item_data: GoldItemCreate | SilverItemCreate,
     db_model: Type[GoldItem] | Type[SilverItem],
 ):
     data_dict = item_data.model_dump()
+    data_dict["user_id"] = user_id
     db_item = db_model(**data_dict)
 
     db.add(db_item)
@@ -34,12 +36,12 @@ def itemAdd(
 
     return item
 
-
-def itemGet(db: Session, db_model: Type[GoldItem] | Type[SilverItem]):
+# unsold
+def itemGet(db: Session, user_id: int, db_model: Type[GoldItem] | Type[SilverItem]):
     db_item = (
         db.query(db_model, ItemType.name)
         .join(ItemType, db_model.item_type_id == ItemType.id)
-        .filter(db_model.is_sold == False)
+        .filter(db_model.user_id == user_id, db_model.is_sold == False)
         .all()
     )
     response_data = []
@@ -50,11 +52,11 @@ def itemGet(db: Session, db_model: Type[GoldItem] | Type[SilverItem]):
     return response_data
 
 
-def itemGetSold(db: Session, db_model: Type[GoldItem] | Type[SilverItem]):
+def itemGetSold(db: Session, user_id: int, db_model: Type[GoldItem] | Type[SilverItem]):
     db_item = (
         db.query(db_model, ItemType.name)
         .join(ItemType, db_model.item_type_id == ItemType.id)
-        .filter(db_model.is_sold == True)
+        .filter(db_model.user_id == user_id, db_model.is_sold == True)
         .all()
     )
     response_data = []
@@ -65,12 +67,12 @@ def itemGetSold(db: Session, db_model: Type[GoldItem] | Type[SilverItem]):
 
 
 def itemGetSingle(
-    db: Session, item_id: int, db_model: Type[GoldItem] | Type[SilverItem]
+    db: Session, user_id: int, item_id: int, db_model: Type[GoldItem] | Type[SilverItem]
 ):
     db_item = (
         db.query(db_model, ItemType.name)
         .join(ItemType, db_model.item_type_id == ItemType.id)
-        .filter(db_model.id == item_id)
+        .filter(db_model.user_id == user_id, db_model.id == item_id)
         .first()
     )
 
@@ -85,11 +87,16 @@ def itemGetSingle(
 
 def itemSell(
     db: Session,
+    user_id: int,
     item_id: int,
     sell_price: GoldItemSell | SilverItemSell,
     db_model: Type[GoldItem] | Type[SilverItem],
 ):
-    db_item = db.query(db_model).filter(db_model.id == item_id).first()
+    db_item = (
+        db.query(db_model)
+        .filter(db_model.user_id == user_id, db_model.id == item_id)
+        .first()
+    )
 
     if not db_item:
         return None
@@ -106,8 +113,14 @@ def itemSell(
     return itemGetSingle(db, item_id, db_model)
 
 
-def itemDelete(db: Session, item_id: int, db_model: Type[GoldItem] | Type[SilverItem]):
-    db_item = db.query(db_model).filter(db_model.id == item_id.id).first()
+def itemDelete(
+    db: Session, user_id: int, item_id: int, db_model: Type[GoldItem] | Type[SilverItem]
+):
+    db_item = (
+        db.query(db_model)
+        .filter(db_model.user_id == user_id, db_model.id == item_id)
+        .first()
+    )
     if not db_item:
         return None
     if db_item.is_sold:

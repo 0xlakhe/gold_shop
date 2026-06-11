@@ -9,6 +9,7 @@ from sqlalchemy import (
     DateTime,
     Enum,
     CheckConstraint,
+    UniqueConstraint,
 )
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
@@ -29,16 +30,30 @@ class User(Base):
 class ItemType(Base):
     __tablename__ = "item_types"
     id = Column(Integer, primary_key=True)
-    name = Column(String, index=True, unique=True, nullable=False)
+    user_id = Column(
+        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    name = Column(String, index=True, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    __table_args__ = (
+        UniqueConstraint("user_id", "name", name="uq_user_item_type_name"),
+    )
 
 
 class DailyPrice(Base):
     __tablename__ = "daily_prices"
     id = Column(Integer, primary_key=True)
-    date = Column(Date, default=date.today, unique=True, index=True, nullable=False)
+    user_id = Column(
+        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    date = Column(Date, default=date.today, index=True, nullable=False)
     gold_price_per_tola = Column(Numeric, nullable=False)
     silver_price_per_tola = Column(Numeric, nullable=False)
+
+    __table_args__ = (
+        UniqueConstraint("user_id", "date", name="uq_user_daily_price_data"),
+    )
 
 
 class KaratType(enum.IntEnum):
@@ -50,6 +65,9 @@ class KaratType(enum.IntEnum):
 class GoldItem(Base):
     __tablename__ = "gold_item"
     id = Column(Integer, primary_key=True)
+    user_id = Column(
+        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
     item_type_id = Column(
         Integer, ForeignKey("item_types.id", ondelete="RESTRICT"), nullable=False
     )
@@ -70,6 +88,9 @@ class GoldItem(Base):
 class SilverItem(Base):
     __tablename__ = "silver_item"
     id = Column(Integer, primary_key=True)
+    user_id = Column(
+        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
     item_type_id = Column(
         Integer, ForeignKey("item_types.id", ondelete="RESTRICT"), nullable=False
     )

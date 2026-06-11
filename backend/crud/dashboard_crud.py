@@ -3,6 +3,9 @@ from typing import Protocol, Tuple
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from models.models import DailyPrice, GoldItem, SilverItem, ItemType
+from crud.daily_prices_crud import get_price
+from crud.items_crud import itemGet, itemGetSold
+from typing import Type
 
 
 class MetricsRow(Protocol):
@@ -12,8 +15,8 @@ class MetricsRow(Protocol):
     profit: float
 
 
-def get_latest_price(db: Session) -> Tuple[float, float, str]:
-    latest_price = db.query(DailyPrice).order_by(DailyPrice.date.desc()).first()
+def get_latest_price(db: Session, user_id: int) -> Tuple[float, float, str]:
+    latest_price = get_price(db, user_id)
 
     today_gold = latest_price.gold_price_per_tola if latest_price else 0
     today_silver = latest_price.silver_price_per_tola if latest_price else 0
@@ -28,21 +31,21 @@ def get_latest_price(db: Session) -> Tuple[float, float, str]:
 
 
 def get_inventory_summary(
-    db: Session, item: GoldItem | SilverItem
+    db: Session, user_id: int, db_model: Type[GoldItem] | Type[SilverItem]
 ) -> Tuple[int, float, dict]:
     unsold = (
         db.query(
-            func.count(item.id).label("count"),
-            func.sum(item.purchase_price).label("purchase_price"),
+            func.count(db_model.id).label("count"),
+            func.sum(db_model.purchase_price).label("purchase_price"),
         )
-        .filter(item.is_sold == False)
+        .filter(db_model.user_id == user_id, db_model.is_sold == False)
         .first()
     )
 
     breakdown = (
-        db.query(ItemType.name, func.count(item.id))
-        .join(item, ItemType.id == item.item_type_id)
-        .filter(item.is_sold == False)
+        db.query(ItemType.name, func.count(db_model.id))
+        .join(db_model, ItemType.id == db_model.item_type_id)
+        .filter(db_model.user_id == user_id, db_model.is_sold == False)
         .group_by(ItemType.name)
         .all()
     )
@@ -74,21 +77,26 @@ def get_inventory_summary(
 
 
 def monthly_metrics(
-    db: Session, start_date: datetime, end_date: datetime, item: GoldItem | SilverItem
+    db: Session,
+    user_id: int,
+    start_date: datetime,
+    end_date: datetime,
+    db_model: GoldItem | SilverItem,
 ) -> MetricsRow:
     item_metrics: MetricsRow = (
         db.query(
-            func.count(item.id).label("count"),
-            func.sum(item.selling_price).label("total_selling"),
-            func.sum(item.purchase_price).label("total_purchase"),
-            (func.sum(item.selling_price) - func.sum(item.purchase_price)).label(
-                "profit"
-            ),
+            func.count(db_model.id).label("count"),
+            func.sum(db_model.selling_price).label("total_selling"),
+            func.sum(db_model.purchase_price).label("total_purchase"),
+            (
+                func.sum(db_model.selling_price) - func.sum(db_model.purchase_price)
+            ).label("profit"),
         )
         .filter(
-            item.is_sold == True,
-            item.sold_at >= start_date,
-            item.sold_at <= end_date,
+            db_model.user_id == user_id,
+            db_model.is_sold == True,
+            db_model.sold_at >= start_date,
+            db_model.sold_at <= end_date,
         )
         .first()
     )
@@ -96,10 +104,10 @@ def monthly_metrics(
 
 
 def get_monthly_sales_matrics(
-    db: Session, start_date: datetime, end_date: datetime
+    db: Session, user_id: int, start_date: datetime, end_date: datetime
 ) -> Tuple[MetricsRow, MetricsRow]:
-    gold_metrics = monthly_metrics(db, start_date, end_date, GoldItem)
-    silver_metrics = monthly_metrics(db, start_date, end_date, SilverItem)
+    gold_metrics = monthly_metrics(db, user_id, start_date, end_date, GoldItem)
+    silver_metrics = monthly_metrics(db, user_id, start_date, end_date, SilverItem)
     # region
     # silver_metrics: MetricsRow = (
     #     db.query(

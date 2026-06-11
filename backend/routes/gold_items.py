@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from models.schemas import GoldItemCreate, GoldItemSell, GoldItemResponse
-from models.models import GoldItem, ItemType
+from models.models import GoldItem, ItemType, User
 from sqlalchemy.orm import Session
 from dependencies import get_current_user
 from database import get_db
@@ -20,31 +20,29 @@ gold_items_router = APIRouter(prefix="/gold")
 @gold_items_router.post("/", response_model=GoldItemResponse)
 def addItem(
     item: GoldItemCreate,
-    user_id: int = Depends(get_current_user),
+    user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    return itemAdd(db, item, GoldItem)
+    return itemAdd(db, user.id, item, GoldItem)
 
 
 @gold_items_router.get("/", response_model=list[GoldItemResponse])
-def getItem(user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
-    return itemGet(db, GoldItem)
+def getItem(user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    return itemGet(db, user.id, GoldItem)
 
 
 @gold_items_router.get("/sold", response_model=list[GoldItemResponse])
-def getSoldItem(
-    user_id: int = Depends(get_current_user), db: Session = Depends(get_db)
-):
-    return itemGetSold(db, GoldItem)
+def getSoldItem(user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    return itemGetSold(db, user.id, GoldItem)
 
 
 @gold_items_router.get("/{item_id}", response_model=GoldItemResponse)
 def getSingleItem(
     item_id: int,
-    user_id: int = Depends(get_current_user),
+    user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    to_return = itemGetSingle(db, item_id, GoldItem)
+    to_return = itemGetSingle(db, user.id, item_id, GoldItem)
 
     if to_return is None:
         raise HTTPException(
@@ -57,10 +55,10 @@ def getSingleItem(
 def sellItem(
     sell_price: GoldItemSell,
     item_id: int,
-    user_id: int = Depends(get_current_user),
+    user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    to_return = itemSell(db, item_id, sell_price, GoldItem)
+    to_return = itemSell(db, user.id, item_id, sell_price, GoldItem)
 
     if to_return is None:
         raise HTTPException(
@@ -76,10 +74,10 @@ def sellItem(
 @gold_items_router.delete("/{item_id}")
 def deleteItem(
     item_id: int,
-    user_id: int = Depends(get_current_user),
+    user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    to_return = itemDelete(db, item_id, GoldItem)
+    to_return = itemDelete(db, user.id, item_id, GoldItem)
 
     if to_return is None:
         raise HTTPException(
