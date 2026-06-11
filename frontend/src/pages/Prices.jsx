@@ -6,7 +6,7 @@ function Prices() {
   const [todayPrice, setTodayPrice] = useState("");
   const [historyPrice, setHistoryPrice] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const [isHistoryOpen, setIsHistoryOpen] = useState(true);
   const [goldPrice, setGoldPrice] = useState("");
   const [silverPrice, setSilverPrice] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -79,7 +79,7 @@ function Prices() {
         </div>
         <div className="history-price ">
           <button
-            className="hover:bg-yellow-600 hover:cursor-pointer"
+            className="bg-amber-200 hover:cursor-pointer"
             onClick={() => setIsHistoryOpen(!isHistoryOpen)}
           >
             <p>History Price</p>
@@ -102,6 +102,7 @@ function Prices() {
             <div className="gold-price">
               <label>Gold Price</label>
               <input
+              className="border border-amber-200"
                 type="number"
                 value={goldPrice}
                 onChange={(e) => setGoldPrice(e.target.value)}
@@ -111,6 +112,7 @@ function Prices() {
             <div className="silver-price">
               <label>Silver Price</label>
               <input
+              className="border border-amber-200"
                 type="number"
                 value={silverPrice}
                 onChange={(e) => setSilverPrice(e.target.value)}

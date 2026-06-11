@@ -55,6 +55,7 @@ class GoldItemCreate(BaseModel):
     weight_tola: Decimal
     karat: KaratType = KaratType.TWENTYFOUR
     purchase_price: Decimal
+    item_note: str = "n/a"
 
 
 class GoldItemSell(BaseModel):
@@ -67,6 +68,7 @@ class GoldItemResponse(BaseModel):
     item_type_name: str | None = None
     weight_tola: Decimal
     karat: int
+    item_note: str | None = None
     purchase_price: Decimal
     is_sold: bool
     selling_price: Decimal | None = None
@@ -82,6 +84,7 @@ class SilverItemCreate(BaseModel):
     weight_tola: Decimal
     purity_percent: Decimal = Field(default=100.0, gt=0.0, le=100)
     purchase_price: Decimal
+    item_note: str = "n/a"
 
 
 class SilverItemSell(BaseModel):
@@ -94,6 +97,8 @@ class SilverItemResponse(BaseModel):
     item_type_name: str | None = None
     weight_tola: Decimal
     purity_percent: Decimal = 100
+    item_note: str | None = None
+    purchase_price: Decimal
     is_sold: bool
     selling_price: Decimal | None
     sold_at: datetime | None

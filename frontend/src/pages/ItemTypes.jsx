@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../components/Navbar";
 import {
   createNewType,
@@ -12,12 +12,26 @@ function ItemTypes() {
   const [allTypes, setAllTypes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newType, setNewType] = useState("");
-  const [typeOpen, setTypeOpen] = useState(false);
+  const [typeOpen, setTypeOpen] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [editValue, setEditValue] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [refresh, setRefresh] = useState(0);
+
+  const editFormRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (editFormRef.current && !editFormRef.current.contains(event.target)) {
+        setEditingId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [editingId]);
 
   const triggerRefresh = () => {
     setRefresh((r) => r + 1);
@@ -115,7 +129,8 @@ function ItemTypes() {
                     <div className="edit">
                       <button
                         className="edit"
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           (setEditingId(item.id),
                             setEditValue(item.name),
                             setIsEdit(true));
@@ -124,21 +139,26 @@ function ItemTypes() {
                         <Pencil size={20} />
                       </button>
                       {editingId === item.id && isEdit && (
-                        <form onSubmit={(e) => handleEditSubmit(e, item.id)}>
+                        <form
+                          className="flex gap-1"
+                          ref={editFormRef}
+                          onSubmit={(e) => handleEditSubmit(e, item.id)}
+                        >
                           <input
                             type="text"
+                            className="border border-amber-200"
                             value={editValue}
                             onChange={(e) => setEditValue(e.target.value)}
                           />
                           <button
                             type="submit"
-                            className="hover:cursor-pointer"
+                            className="hover:cursor-pointer bg-amber-200"
                           >
                             Submit
                           </button>
                           <button
                             type="button"
-                            className="hover:cursor-pointer"
+                            className="hover:cursor-pointer bg-amber-200"
                             onClick={() => setEditingId(null)}
                           >
                             Cancel

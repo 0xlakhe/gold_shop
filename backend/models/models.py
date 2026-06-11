@@ -8,7 +8,7 @@ from sqlalchemy import (
     ForeignKey,
     DateTime,
     Enum,
-    CheckConstraint
+    CheckConstraint,
 )
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
@@ -36,7 +36,7 @@ class ItemType(Base):
 class DailyPrice(Base):
     __tablename__ = "daily_prices"
     id = Column(Integer, primary_key=True)
-    date = Column(Date,default=date.today, unique=True, index=True, nullable=False)
+    date = Column(Date, default=date.today, unique=True, index=True, nullable=False)
     gold_price_per_tola = Column(Numeric, nullable=False)
     silver_price_per_tola = Column(Numeric, nullable=False)
 
@@ -58,6 +58,7 @@ class GoldItem(Base):
         Enum(KaratType, native_enum=False, default=KaratType.TWENTYFOUR, nullable=False)
     )
     purchase_price = Column(Numeric, nullable=False)
+    item_note = Column(String, nullable=True)
     selling_price = Column(Numeric, nullable=True)
     is_sold = Column(Boolean, index=True, default=False, nullable=False)
     sold_at = Column(DateTime(timezone=True), nullable=True)
@@ -73,8 +74,11 @@ class SilverItem(Base):
         Integer, ForeignKey("item_types.id", ondelete="RESTRICT"), nullable=False
     )
     weight_tola = Column(Numeric, nullable=False)
-    purity_percent = Column(Numeric, CheckConstraint('purity_percent<=100.0'), default=100.0, nullable=False)
+    purity_percent = Column(
+        Numeric, CheckConstraint("purity_percent<=100.0"), default=100.0, nullable=False
+    )
     purchase_price = Column(Numeric, nullable=False)
+    item_note = Column(String, nullable=True)
     is_sold = Column(Boolean, index=True, default=False, nullable=False)
     selling_price = Column(Numeric, nullable=True)
     sold_at = Column(DateTime(timezone=True), nullable=True)

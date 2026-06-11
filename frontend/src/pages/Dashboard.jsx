@@ -88,9 +88,11 @@ function Dashboard() {
           <div className="gold-report">
             <p>
               Total Gold Items sold:{" "}
-              <Link to="/sold-items" state={{ isGold: true }}>
-                {data.this_month.gold_sold}
-              </Link>
+              <span className="bg-amber-300">
+                <Link to="/sold-items" state={{ isGold: true }}>
+                  {data.this_month.gold_sold}
+                </Link>
+              </span>
             </p>
             <p>Total Gold Profit: {data.this_month.gold_profit}</p>
           </div>

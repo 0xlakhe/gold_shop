@@ -80,7 +80,7 @@ def sellItem(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Item has already been sold"
         )
-    return
+    return to_return
 
 
 @silver_items_router.delete("/{item_id}")
@@ -100,4 +100,4 @@ def deleteItem(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Cannot delete sold item"
         )
 
-    return
+    return to_return
