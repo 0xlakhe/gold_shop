@@ -72,13 +72,10 @@ function Inventory() {
     getAllItems();
   }, [refresh]);
 
-  if (loading) {
-    return <div>Loading</div>;
-  }
-
   return (
     <div>
       <Navbar />
+      {loading && <div>Loading</div>}
       <div className="flex">
         <div className="show-items flex justify-around w-1/2 ">
           <div className="gold-items pt-5 pl-5 flex gap-10 w-full">
