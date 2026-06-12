@@ -31,7 +31,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://gold-shop-rm2ld4gox-iizeds-projects.vercel.app",
+        "https://gold-shop-zeta.vercel.app/",
     ],
     allow_credentials=True,
     allow_methods=["*"],
