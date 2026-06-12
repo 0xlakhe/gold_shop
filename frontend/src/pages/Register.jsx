@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { register } from "../api/auth";
 import { useNavigate } from "react-router-dom";
+import { Landmark, UserPlus } from "lucide-react";
 
 function Register() {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const reg = await register({
+      await register({
         username: username,
         email: email,
         password: password,
@@ -23,48 +24,62 @@ function Register() {
     }
   };
   return (
-    <div>
-      <div>
-        <form className="p-4" onSubmit={handleRegister}>
-          <div className="flex flex-col gap-4">
-            <div className="username">
-              <label htmlFor="username">Username</label>
-              <input
-                type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="border border-amber-200 ml-4"
-              />
-            </div>
-            <div className="email">
-              <label htmlFor="email">Email</label>
-              <input
-                type="text"
-                id="email"
-                value={email}
-                className="border border-amber-200 ml-4"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="password">
-              <label htmlFor="password" id="password" value={password}>
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="border border-amber-200 ml-4"
-              />
-            </div>
+    <div className="app-page grid min-h-screen place-items-center px-4 py-10">
+      <main className="panel w-full max-w-md overflow-hidden">
+        <div className="panel-header text-center">
+          <span className="mx-auto inline-flex h-12 w-12 items-center justify-center rounded-lg bg-stone-950 text-amber-300">
+            <Landmark size={24} />
+          </span>
+          <h1 className="mt-4 text-2xl font-bold text-stone-950">
+            Create account
+          </h1>
+          <p className="mt-1 text-sm text-stone-500">
+            Set up access for the inventory ledger.
+          </p>
+        </div>
+        <form className="panel-body space-y-4" onSubmit={handleRegister}>
+          <div className="field">
+            <label className="field-label" htmlFor="username">
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="input"
+            />
           </div>
-          <button type="submit" className="mt-5 bg-amber-200 hover:cursor-pointer">
+          <div className="field">
+            <label className="field-label" htmlFor="email">
+              Email
+            </label>
+            <input
+              type="text"
+              id="email"
+              value={email}
+              className="input"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="field">
+            <label className="field-label" htmlFor="password">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="input"
+            />
+          </div>
+          <button type="submit" className="btn-primary w-full">
+            <UserPlus size={16} />
             Register
           </button>
         </form>
-      </div>
+      </main>
     </div>
   );
 }

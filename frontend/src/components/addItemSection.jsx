@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { addGoldItem, addSilverItem } from "../api/inventory";
+import useToast from "./useToast";
 
 function AddGoldItemSection({ item_id, itemAdded }) {
+  const toast = useToast();
   const [karat, setKarat] = useState("24");
   const [weight, setWeight] = useState("");
   const [purchasePrice, setPurchasePrice] = useState("");
@@ -10,7 +12,7 @@ function AddGoldItemSection({ item_id, itemAdded }) {
     e.preventDefault();
 
     if (!item_id) {
-      return alert("Please select an item type before adding a gold item.");
+      return toast.warning("Please select an item type before adding gold");
     }
 
     try {
@@ -23,59 +25,74 @@ function AddGoldItemSection({ item_id, itemAdded }) {
       console.log(addItem);
     } catch (error) {
       console.error("Failed to add gold item", error);
+      toast.error("Could not add gold item");
+      return;
     } finally {
-      alert("added");
       itemAdded();
       setWeight("");
       setPurchasePrice("");
     }
+    toast.success("Gold item added");
   };
 
   const handleKarat = (e) => {
     setKarat(e.target.value);
   };
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div className="karat">
-          <p>Karat</p>
-          <select value={karat} onChange={handleKarat} required>
-            <option value="24">24K</option>
-            <option value="22">22K</option>
-            <option value="18">18K</option>
-          </select>
-        </div>
-        <div className="weight">
-          <p>Enter weight</p>
-          <input
-            type="number"
-            value={weight}
-            placeholder="weight here"
-            className="border border-amber-300"
-            onChange={(e) => setWeight(e.target.value)}
-            required
-          />
-        </div>
-        <div className="purchase-price">
-          <p>Purchase Price</p>
-          <input
-            type="number"
-            className="border border-amber-300"
-            placeholder="purchase price here"
-            value={purchasePrice}
-            onChange={(e) => setPurchasePrice(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="bg-amber-200">
-          submit
-        </button>
-      </form>
-    </div>
+    <form className="space-y-4" onSubmit={handleSubmit}>
+      <div className="field">
+        <label className="field-label" htmlFor="gold-karat">
+          Karat
+        </label>
+        <select
+          id="gold-karat"
+          className="select"
+          value={karat}
+          onChange={handleKarat}
+          required
+        >
+          <option value="24">24K</option>
+          <option value="22">22K</option>
+          <option value="18">18K</option>
+        </select>
+      </div>
+      <div className="field">
+        <label className="field-label" htmlFor="gold-weight">
+          Weight
+        </label>
+        <input
+          id="gold-weight"
+          type="number"
+          value={weight}
+          placeholder="Weight in tola"
+          className="input"
+          onChange={(e) => setWeight(e.target.value)}
+          required
+        />
+      </div>
+      <div className="field">
+        <label className="field-label" htmlFor="gold-purchase">
+          Purchase price
+        </label>
+        <input
+          id="gold-purchase"
+          type="number"
+          className="input"
+          placeholder="Purchase price"
+          value={purchasePrice}
+          onChange={(e) => setPurchasePrice(e.target.value)}
+          required
+        />
+      </div>
+      <button type="submit" className="btn-primary w-full">
+        Add gold item
+      </button>
+    </form>
   );
 }
 
 function AddSilverItemSection({ item_id, itemAdded }) {
+  const toast = useToast();
   const [purity, setPurity] = useState("100");
   const [purchasePrice, setPurchasePrice] = useState("");
   const [weight, setWeight] = useState("");
@@ -85,6 +102,10 @@ function AddSilverItemSection({ item_id, itemAdded }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!item_id) {
+      return toast.warning("Please select an item type before adding silver");
+    }
+
     try {
       const addItem = await addSilverItem({
         item_type_id: item_id,
@@ -95,50 +116,61 @@ function AddSilverItemSection({ item_id, itemAdded }) {
       console.log(addItem);
     } catch (err) {
       console.log(err);
+      toast.error("Could not add silver item");
+      return;
     } finally {
-      alert("Success");
       itemAdded();
       setWeight("");
       setPurchasePrice("");
     }
+    toast.success("Silver item added");
   };
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div className="purity">
-          <p>Purity</p>
-          <input
-            type="number"
-            className="border border-amber-200"
-            value={purity}
-            onChange={handlePurity}
-            min="0"
-            max="100"
-          />
-        </div>
-        <div className="weight">
-          <p>Enter Weight</p>
-          <input
-            className="border border-amber-200"
-            type="number"
-            value={weight}
-            onChange={(e) => setWeight(e.target.value)}
-          />
-        </div>
-        <div className="purchase-price">
-          <p>Purchase Price</p>
-          <input
-            type="number"
-            value={purchasePrice}
-            className="border border-amber-200"
-            onChange={(e) => setPurchasePrice(e.target.value)}
-          />
-        </div>
-        <button type="submit" className="bg-amber-200">
-          submit
-        </button>
-      </form>
-    </div>
+    <form className="space-y-4" onSubmit={handleSubmit}>
+      <div className="field">
+        <label className="field-label" htmlFor="silver-purity">
+          Purity
+        </label>
+        <input
+          id="silver-purity"
+          type="number"
+          className="input"
+          value={purity}
+          onChange={handlePurity}
+          min="0"
+          max="100"
+        />
+      </div>
+      <div className="field">
+        <label className="field-label" htmlFor="silver-weight">
+          Weight
+        </label>
+        <input
+          id="silver-weight"
+          className="input"
+          type="number"
+          placeholder="Weight in tola"
+          value={weight}
+          onChange={(e) => setWeight(e.target.value)}
+        />
+      </div>
+      <div className="field">
+        <label className="field-label" htmlFor="silver-purchase">
+          Purchase price
+        </label>
+        <input
+          id="silver-purchase"
+          type="number"
+          value={purchasePrice}
+          className="input"
+          placeholder="Purchase price"
+          onChange={(e) => setPurchasePrice(e.target.value)}
+        />
+      </div>
+      <button type="submit" className="btn-primary w-full">
+        Add silver item
+      </button>
+    </form>
   );
 }
 

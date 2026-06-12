@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { dashboard } from "../api/dashboard";
 import { Link } from "react-router-dom";
+import { ArrowUpRight, Gem, Package, TrendingUp, Wallet } from "lucide-react";
 
 function Dashboard() {
   const [data, setData] = useState(null);
@@ -25,91 +26,196 @@ function Dashboard() {
 
   if (loading)
     return (
-      <div>
+      <div className="app-page">
         <Navbar />
-        <div className="p-6">Loading...</div>
+        <div className="page-wrap">
+          <div className="panel panel-body">Loading dashboard...</div>
+        </div>
       </div>
     );
 
   if (error)
     return (
-      <div>
+      <div className="app-page">
         <Navbar />
-        <div className="p-6 text-red-500">{error}</div>
+        <div className="page-wrap">
+          <div className="panel panel-body text-red-600">{error}</div>
+        </div>
       </div>
     );
 
+  const renderTypeBreakdown = (items = {}, metal) => {
+    const entries = Object.entries(items);
+    if (!entries.length) {
+      return <p className="text-sm text-stone-500">No items recorded yet.</p>;
+    }
+
+    return (
+      <div className="mt-4 space-y-2">
+        {entries.map(([name, count]) => (
+          <Link
+            className="list-row transition hover:border-amber-200 hover:bg-amber-50/60"
+            key={name}
+            to="/inventory"
+            state={{ metal, typeName: name }}
+          >
+            <span className="text-sm font-semibold text-stone-700">
+              {name}
+            </span>
+            <span className="badge">{String(count)}</span>
+          </Link>
+        ))}
+      </div>
+    );
+  };
+
   return (
-    <div>
+    <div className="app-page">
       <Navbar />
-      <div className="flex flex-col gap-5 pt-5 pb-5 pl-10 pt-10">
-        <p className="font-bold text-xl">
-          Today's Gold price: {data.today_gold_price}
-        </p>
-        <p className="font-bold text-xl">
-          Today's Silver price: {data.today_silver_price}
-        </p>
-        <p className="font-bold text-xl">Price Note: {data.price_note}</p>
-      </div>
-
-      <div className="inventory ">
-        <div className="gold-inventory pl-10 pt-10">
-          <p className="font-bold text-xl">Gold Inventory</p>
+      <main className="page-wrap">
+        <header className="page-header">
           <div>
-            <p>Total Items: {data.gold_inventory.total_items}</p>
-            <p>Total Value: {data.gold_inventory.total_value}</p>
-            <div>
-              {Object.keys(data.gold_inventory.items_by_types).map((key) => (
-                <p key={key}>
-                  {key}: {String(data.gold_inventory.items_by_types[key])}
-                </p>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="silver-inventory pl-10 pt-10">
-          <p className="font-bold text-xl">Silver Inventory</p>
-          <div>
-            <p>Total Items: {data.silver_inventory.total_items}</p>
-            <p>Total Value: {data.silver_inventory.total_value}</p>
-            <div>
-              {Object.keys(data.silver_inventory.items_by_types).map((key) => (
-                <p key={key}>
-                  {key}:{String(data.gold_inventory.items_by_types[key])}
-                </p>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="this-month pl-10 pt-10">
-          <p className="font-bold text-xl">This Month Report</p>
-          <div className="gold-report">
-            <p>
-              Total Gold Items sold:{" "}
-              <span className="bg-amber-300">
-                <Link to="/sold-items" state={{ isGold: true }}>
-                  {data.this_month.gold_sold}
-                </Link>
-              </span>
-            </p>
-            <p>Total Gold Profit: {data.this_month.gold_profit}</p>
-          </div>
-          <div className="silver-report">
-            <p>Total Silver Items sold: {data.this_month.silver_sold}</p>
-            <p>Total Silver Profit: {data.this_month.silver_profit}</p>
-          </div>
-
-          <div>
-            <p>
-              Total profit:
-              {data.this_month.total_profit}
+            <p className="eyebrow">Overview</p>
+            <h1 className="page-title">Daily inventory snapshot</h1>
+            <p className="page-subtitle">
+              Track metal rates, stock value, and this month's selling activity
+              from one calm workspace.
             </p>
           </div>
-        </div>
-      </div>
-      {JSON.stringify(data, null, 2)}
+          <Link className="btn-secondary" to="/prices">
+            Update prices
+            <ArrowUpRight size={16} />
+          </Link>
+        </header>
+
+        <section className="grid gap-4 md:grid-cols-3">
+          <div className="stat-card">
+            <div className="flex items-center justify-between">
+              <p className="stat-label">Gold price</p>
+              <Gem className="text-amber-600" size={20} />
+            </div>
+            <p className="stat-value">{data.today_gold_price ?? "N/A"}</p>
+            <p className="mt-2 text-sm text-stone-500">Per tola today</p>
+          </div>
+          <div className="stat-card">
+            <div className="flex items-center justify-between">
+              <p className="stat-label">Silver price</p>
+              <Wallet className="text-stone-500" size={20} />
+            </div>
+            <p className="stat-value">{data.today_silver_price ?? "N/A"}</p>
+            <p className="mt-2 text-sm text-stone-500">Per tola today</p>
+          </div>
+          <div className="stat-card">
+            <div className="flex items-center justify-between">
+              <p className="stat-label">Price note</p>
+              <TrendingUp className="text-emerald-600" size={20} />
+            </div>
+            <p className="mt-2 text-lg font-bold text-stone-950">
+              {data.price_note || "No note added"}
+            </p>
+          </div>
+        </section>
+
+        <section className="mt-6 grid gap-6 lg:grid-cols-2">
+          <div className="panel">
+            <div className="panel-header flex items-center justify-between">
+              <div>
+                <p className="eyebrow">Inventory</p>
+                <h2 className="text-lg font-bold text-stone-950">Gold stock</h2>
+              </div>
+              <Package className="text-amber-600" size={20} />
+            </div>
+            <div className="panel-body">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <p className="stat-label">Total items</p>
+                  <p className="stat-value">{data.gold_inventory.total_items}</p>
+                </div>
+                <div>
+                  <p className="stat-label">Total value</p>
+                  <p className="stat-value">{data.gold_inventory.total_value}</p>
+                </div>
+              </div>
+              {renderTypeBreakdown(data.gold_inventory.items_by_types, "gold")}
+            </div>
+          </div>
+
+          <div className="panel">
+            <div className="panel-header flex items-center justify-between">
+              <div>
+                <p className="eyebrow">Inventory</p>
+                <h2 className="text-lg font-bold text-stone-950">
+                  Silver stock
+                </h2>
+              </div>
+              <Package className="text-stone-500" size={20} />
+            </div>
+            <div className="panel-body">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <p className="stat-label">Total items</p>
+                  <p className="stat-value">
+                    {data.silver_inventory.total_items}
+                  </p>
+                </div>
+                <div>
+                  <p className="stat-label">Total value</p>
+                  <p className="stat-value">
+                    {data.silver_inventory.total_value}
+                  </p>
+                </div>
+              </div>
+              {renderTypeBreakdown(
+                data.silver_inventory.items_by_types,
+                "silver",
+              )}
+            </div>
+          </div>
+        </section>
+
+        <section className="panel mt-6">
+          <div className="panel-header">
+            <p className="eyebrow">This month</p>
+            <h2 className="text-lg font-bold text-stone-950">Sales report</h2>
+          </div>
+          <div className="panel-body grid gap-4 md:grid-cols-3">
+            <div className="rounded-lg bg-amber-50 p-4">
+              <p className="stat-label">Gold items sold</p>
+              <Link
+                to="/sold-items"
+                state={{ isGold: true, currentMonthOnly: true }}
+                className="mt-2 inline-flex items-center gap-2 text-2xl font-bold text-amber-900"
+              >
+                {data.this_month.gold_sold}
+                <ArrowUpRight size={18} />
+              </Link>
+              <p className="mt-2 text-sm text-stone-600">
+                Profit: {data.this_month.gold_profit}
+              </p>
+            </div>
+            <div className="rounded-lg bg-stone-100 p-4">
+              <p className="stat-label">Silver items sold</p>
+              <Link
+                to="/sold-items"
+                state={{ isGold: false, currentMonthOnly: true }}
+                className="mt-2 inline-flex items-center gap-2 text-2xl font-bold text-stone-950"
+              >
+                {data.this_month.silver_sold}
+                <ArrowUpRight size={18} />
+              </Link>
+              <p className="mt-2 text-sm text-stone-600">
+                Profit: {data.this_month.silver_profit}
+              </p>
+            </div>
+            <div className="rounded-lg bg-emerald-50 p-4">
+              <p className="stat-label">Total profit</p>
+              <p className="mt-2 text-2xl font-bold text-emerald-900">
+                {data.this_month.total_profit}
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }

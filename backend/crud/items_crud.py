@@ -110,7 +110,7 @@ def itemSell(
     db.commit()
     db.refresh(db_item)
 
-    return itemGetSingle(db, item_id, db_model)
+    return itemGetSingle(db, user_id, item_id, db_model)
 
 
 def itemDelete(

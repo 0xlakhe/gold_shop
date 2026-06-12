@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { getAllPrice, getPrice, setPrice } from "../api/prices";
+import { ChevronDown, ChevronUp, Coins, History, Save } from "lucide-react";
+import useToast from "../components/useToast";
 
 function Prices() {
+  const toast = useToast();
   const [todayPrice, setTodayPrice] = useState("");
   const [historyPrice, setHistoryPrice] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,7 +43,7 @@ function Prices() {
   const handlePriceSubmit = async (e) => {
     e.preventDefault();
     if (!goldPrice || !silverPrice) {
-      alert("Please enter both gold and silver prices.");
+      toast.warning("Please enter both gold and silver prices");
       return;
     }
     setSubmitting(true);
@@ -49,85 +52,184 @@ function Prices() {
         gold_price_per_tola: Number(goldPrice),
         silver_price_per_tola: Number(silverPrice),
       });
-      alert("Price updated!");
+      toast.success("Price updated");
     } catch (err) {
       console.error("Failed to update price", err);
-      alert("error updating price");
+      toast.error("Could not update price");
     } finally {
       setSubmitting(false);
     }
   };
   if (loading) {
     return (
-      <div>
+      <div className="app-page">
         <Navbar />
-        Loading...
+        <div className="page-wrap">
+          <div className="panel panel-body">Loading prices...</div>
+        </div>
       </div>
     );
   }
   return (
-    <div>
+    <div className="app-page">
       <Navbar />
-      <div className="prices flex justify-around mt-10 flex-wrap">
-        <div className="latest-price">
-          <h2>Latest Price: </h2>
+      <main className="page-wrap">
+        <header className="page-header">
           <div>
-            {/* optional chaining ? will render only if data arrives */}
-            <p>Gold Price: {todayPrice?.gold_price_per_tola}</p>
-            <p>Silver price: {todayPrice?.silver_price_per_tola}</p>
+            <p className="eyebrow">Rates</p>
+            <h1 className="page-title">Metal prices</h1>
+            <p className="page-subtitle">
+              Set today's rates and review recent price changes.
+            </p>
           </div>
-        </div>
-        <div className="history-price ">
-          <button
-            className="bg-amber-200 hover:cursor-pointer"
-            onClick={() => setIsHistoryOpen(!isHistoryOpen)}
-          >
-            <p>History Price</p>
-          </button>
-          {isHistoryOpen && (
-            <>
-              {historyPrice.map((item) => (
-                <div className="pb-10" key={item.id}>
-                  <p>date: {formatDate(item["date"])}</p>
-                  <p>gold price:{item["gold_price_per_tola"]}</p>
-                  <p>silver price: {item["silver_price_per_tola"]}</p>
+        </header>
+
+        <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
+          <section className="space-y-6">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-lg border border-yellow-200 bg-yellow-50/60 p-5 shadow-sm shadow-stone-200/40">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium text-yellow-800">
+                    Latest gold price
+                  </p>
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-white text-yellow-700">
+                    <Coins size={19} />
+                  </span>
                 </div>
-              ))}
-            </>
-          )}
-        </div>
-        <div>
-          <form onSubmit={handlePriceSubmit}>
-            <h3>Set Today's Price</h3>
-            <div className="gold-price">
-              <label>Gold Price</label>
-              <input
-              className="border border-amber-200"
-                type="number"
-                value={goldPrice}
-                onChange={(e) => setGoldPrice(e.target.value)}
-              />
+                <p className="stat-value">
+                  {todayPrice?.gold_price_per_tola ?? "N/A"}
+                </p>
+              </div>
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-5 shadow-sm shadow-stone-200/40">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium text-slate-600">
+                    Latest silver price
+                  </p>
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-white text-slate-500">
+                    <Coins size={19} />
+                  </span>
+                </div>
+                <p className="stat-value">
+                  {todayPrice?.silver_price_per_tola ?? "N/A"}
+                </p>
+              </div>
             </div>
 
-            <div className="silver-price">
-              <label>Silver Price</label>
-              <input
-              className="border border-amber-200"
-                type="number"
-                value={silverPrice}
-                onChange={(e) => setSilverPrice(e.target.value)}
-              />
+            <div className="panel">
+              <button
+                type="button"
+                className="flex w-full items-center justify-between gap-3 px-5 py-4 text-left"
+                onClick={() => setIsHistoryOpen(!isHistoryOpen)}
+              >
+                <span className="flex items-center gap-3">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-stone-100 text-stone-700">
+                    <History size={20} />
+                  </span>
+                  <span>
+                    <span className="block text-lg font-bold text-stone-950">
+                      Price history
+                    </span>
+                    <span className="text-sm text-stone-500">
+                      {historyPrice.length} recorded updates
+                    </span>
+                  </span>
+                </span>
+                {isHistoryOpen ? (
+                  <ChevronUp size={18} />
+                ) : (
+                  <ChevronDown size={18} />
+                )}
+              </button>
+              {isHistoryOpen && (
+                <div className="space-y-3 border-t border-stone-100 p-5">
+                  {historyPrice.length ? (
+                    historyPrice.map((item) => (
+                      <div
+                        className="rounded-lg border border-[#efe5d3] bg-[#fffaf0] p-4"
+                        key={item.id}
+                      >
+                        <div className="mb-3">
+                          <p className="font-semibold text-stone-950">
+                            {formatDate(item.date)}
+                          </p>
+                        </div>
+                        <div className="grid gap-3 sm:grid-cols-2">
+                          <div className="rounded-md border border-yellow-200 bg-yellow-50/70 px-3 py-2">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-yellow-800">
+                              Gold
+                            </p>
+                            <p className="mt-1 font-bold text-stone-950">
+                              {item.gold_price_per_tola}
+                            </p>
+                          </div>
+                          <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+                              Silver
+                            </p>
+                            <p className="mt-1 font-bold text-stone-950">
+                              {item.silver_price_per_tola}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="rounded-lg border border-dashed border-stone-200 p-6 text-center text-sm text-stone-500">
+                      No price history yet.
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
-            <button
-              type="submit"
-              disabled={submitting}
-              className="hover:cursor-pointer bg-amber-200"
-            >
-              {submitting ? "Updating..." : "Set New Prices"}
-            </button>
-          </form>
+          </section>
+
+          <aside className="panel h-fit">
+            <div className="panel-header">
+              <h2 className="text-lg font-bold text-stone-950">
+                Set today's price
+              </h2>
+              <p className="text-sm text-stone-500">
+                Enter both metal rates before saving.
+              </p>
+            </div>
+            <form className="panel-body space-y-4" onSubmit={handlePriceSubmit}>
+              <div className="field">
+                <label className="field-label" htmlFor="gold-price">
+                  Gold price
+                </label>
+                <input
+                  id="gold-price"
+                  className="input"
+                  type="number"
+                  value={goldPrice}
+                  onChange={(e) => setGoldPrice(e.target.value)}
+                />
+              </div>
+
+              <div className="field">
+                <label className="field-label" htmlFor="silver-price">
+                  Silver price
+                </label>
+                <input
+                  id="silver-price"
+                  className="input"
+                  type="number"
+                  value={silverPrice}
+                  onChange={(e) => setSilverPrice(e.target.value)}
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={submitting}
+                className="btn-primary w-full"
+              >
+                <Save size={16} />
+                {submitting ? "Updating..." : "Set new prices"}
+              </button>
+            </form>
+          </aside>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
