@@ -26,9 +26,10 @@ app.include_router(gold_items_router)
 app.include_router(silver_items_router)
 app.include_router(dashboard_router)
 
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost:5173", "https://gold-shop-zeta.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
