@@ -19,18 +19,11 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
-app.include_router(auth_router, prefix="/auth")
-app.include_router(item_types_router)
-app.include_router(daily_price_router)
-app.include_router(gold_items_router)
-app.include_router(silver_items_router)
-app.include_router(dashboard_router)
-
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
+        "http://127.0.0.1:5173",
         "https://gold-shop-zeta.vercel.app",
         "https://gold-shop-git-ai-styling-iizeds-projects.vercel.app",
     ],
@@ -39,3 +32,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(auth_router, prefix="/auth")
+app.include_router(item_types_router)
+app.include_router(daily_price_router)
+app.include_router(gold_items_router)
+app.include_router(silver_items_router)
+app.include_router(dashboard_router)
