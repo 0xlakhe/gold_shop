@@ -32,6 +32,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "https://gold-shop-zeta.vercel.app",
+        "https://gold-shop-git-ai-styling-iizeds-projects.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
