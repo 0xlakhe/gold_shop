@@ -106,12 +106,10 @@ function ItemTypes() {
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
   return (
     <div>
       <Navbar />
+      {loading && <div>Loading...</div>}
       <div className="flex mt-10 pl-10 justify-around">
         <div className="all-types ">
           <button
