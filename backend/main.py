@@ -29,7 +29,10 @@ app.include_router(dashboard_router)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "https://gold-shop-zeta.vercel.app"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://gold-shop-rm2ld4gox-iizeds-projects.vercel.app",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
