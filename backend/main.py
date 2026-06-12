@@ -34,6 +34,7 @@ app.add_middleware(
         "https://gold-shop-zeta.vercel.app",
         "https://gold-shop-git-ai-styling-iizeds-projects.vercel.app",
     ],
+    allow_origin_regex=r"https://gold-shop-.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
