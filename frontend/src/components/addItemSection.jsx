@@ -113,7 +113,7 @@ function AddSilverItemSection({ item_id, itemAdded }) {
         purity_percent: purity,
         purchase_price: purchasePrice,
       });
-      console.log(addItem);
+    console.log(addItem);
     } catch (err) {
       console.log(err);
       toast.error("Could not add silver item");

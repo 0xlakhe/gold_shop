@@ -30,10 +30,10 @@ function Register() {
           <span className="mx-auto inline-flex h-12 w-12 items-center justify-center rounded-lg bg-stone-950 text-amber-300">
             <Landmark size={24} />
           </span>
-          <h1 className="mt-4 text-2xl font-bold text-stone-950">
+          <h1 className="mt-4 text-2xl font-bold text-stone-950 dark:text-stone-100">
             Create account
           </h1>
-          <p className="mt-1 text-sm text-stone-500">
+          <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
             Set up access for the inventory ledger.
           </p>
         </div>

@@ -113,10 +113,10 @@ function Inventory() {
               {inventoryFilter.typeName && (
                 <div className="panel panel-body flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <p className="text-sm font-semibold text-stone-950">
+                    <p className="text-sm font-semibold text-stone-950 dark:text-stone-100">
                       Showing {inventoryFilter.typeName} items
                     </p>
-                    <p className="text-sm text-stone-500">
+                    <p className="text-sm text-stone-500 dark:text-stone-400">
                       Filtered from the dashboard{" "}
                       {inventoryFilter.metal
                         ? `for ${inventoryFilter.metal} stock`
@@ -138,10 +138,10 @@ function Inventory() {
               <div className="grid items-start gap-4 lg:grid-cols-2">
                 <div className="space-y-4">
                   <div className="px-1">
-                    <p className="text-sm font-bold text-stone-900">
+                    <p className="text-sm font-bold text-stone-900 dark:text-stone-100">
                       Available stock
                     </p>
-                    <p className="text-xs text-stone-500">
+                    <p className="text-xs text-stone-500 dark:text-stone-400">
                       Items still in inventory
                     </p>
                   </div>
@@ -163,10 +163,10 @@ function Inventory() {
 
                 <div className="space-y-4">
                   <div className="px-1">
-                    <p className="text-sm font-bold text-stone-900">
+                    <p className="text-sm font-bold text-stone-900 dark:text-stone-100">
                       Sold stock
                     </p>
-                    <p className="text-xs text-stone-500">
+                    <p className="text-xs text-stone-500 dark:text-stone-400">
                       Completed sale records
                     </p>
                   </div>
@@ -193,18 +193,18 @@ function Inventory() {
             <aside className="panel h-fit">
               <button
                 type="button"
-                className="flex w-full items-center justify-between gap-3 bg-white px-5 py-4 text-left text-stone-950 transition hover:bg-stone-50"
+                className="flex w-full items-center justify-between gap-3 bg-white px-5 py-4 text-left text-stone-950 dark:bg-stone-800 dark:text-stone-100 transition hover:bg-stone-50 dark:hover:bg-stone-700"
                 onClick={() => setIsAddItem(!isAddItem)}
               >
                 <span className="flex items-center gap-3">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-stone-100 text-stone-700">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-stone-100 text-stone-700 dark:bg-stone-700 dark:text-stone-300">
                     <PackagePlus size={20} />
                   </span>
                   <span>
-                    <span className="block text-lg font-bold text-stone-950">
+                    <span className="block text-lg font-bold text-stone-950 dark:text-stone-100 dark:text-stone-100">
                       Add item
                     </span>
-                    <span className="text-sm text-stone-500">
+                    <span className="text-sm text-stone-500 dark:text-stone-400">
                       Create gold or silver stock
                     </span>
                   </span>
@@ -213,7 +213,7 @@ function Inventory() {
               </button>
 
               {isAddItem && (
-                <div className="space-y-4 border-t border-stone-100 p-5">
+                <div className="space-y-4 border-t border-stone-100 dark:border-stone-700 p-5">
                   <div className="field">
                     <label className="field-label" htmlFor="item-type">
                       Select type

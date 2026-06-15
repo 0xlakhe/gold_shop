@@ -100,22 +100,22 @@ function InventorySection({
     <div className="panel self-start overflow-hidden">
       <button
         type="button"
-        className="flex w-full items-center justify-between gap-3 bg-white px-4 py-3 text-left text-stone-950 transition hover:bg-stone-50"
+        className="flex w-full items-center justify-between gap-3 bg-white px-4 py-3 text-left text-stone-950 dark:bg-transparent dark:text-stone-100 transition hover:bg-stone-50 dark:hover:bg-stone-700/50"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className="flex items-center gap-3">
           <span
             className={`inline-flex h-9 w-9 items-center justify-center rounded-md ${
               isGoldSection
-                ? "bg-yellow-50 text-yellow-700"
-                : "bg-slate-50 text-slate-500"
+                ? "bg-yellow-50 text-yellow-700 dark:bg-yellow-900/20 dark:text-yellow-400"
+                : "bg-slate-50 text-slate-500 dark:bg-slate-900/20 dark:text-slate-400"
             }`}
           >
             <Gem size={17} />
           </span>
           <span>
-            <span className="block font-bold text-stone-950">{title}</span>
-            <span className="text-xs font-medium text-stone-500">
+            <span className="block font-bold text-stone-950 dark:text-stone-100">{title}</span>
+            <span className="text-xs font-medium text-stone-500 dark:text-stone-400 dark:text-stone-500">
               {items.length} {items.length === 1 ? "entry" : "entries"}
             </span>
           </span>
@@ -123,19 +123,19 @@ function InventorySection({
         {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
       </button>
       {isOpen && (
-        <div className="space-y-3 border-t border-stone-100 p-4">
+        <div className="space-y-3 border-t border-stone-100 dark:border-stone-700 p-4">
           {items.length ? (
             items.map((item) => (
               <div
-                className="rounded-lg border border-stone-100 bg-stone-50/70 p-4"
+                className="rounded-lg border border-stone-100 bg-stone-50/70 dark:border-stone-700 dark:bg-stone-800/50 p-4"
                 key={item.id}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <p className="font-bold text-stone-950">
+                    <p className="font-bold text-stone-950 dark:text-stone-100">
                       {item.item_type_name}
                     </p>
-                    <p className="mt-1 text-sm text-stone-500">
+                    <p className="mt-1 text-sm text-stone-500 dark:text-stone-400 dark:text-stone-500">
                       {isGoldSection
                         ? `Karat: ${item.karat}`
                         : `Purity: ${item.purity_percent}%`}
@@ -154,11 +154,11 @@ function InventorySection({
                 </div>
 
                 {deleteCandidateId === item.id && (
-                  <div className="mt-4 rounded-md border border-red-100 bg-red-50 px-3 py-3">
-                    <p className="text-sm font-semibold text-red-900">
+                  <div className="mt-4 rounded-md border border-red-100 dark:border-red-800/40 bg-red-50 dark:bg-red-900/20 px-3 py-3">
+                    <p className="text-sm font-semibold text-red-900 dark:text-red-300">
                       Delete this unsold item?
                     </p>
-                    <p className="mt-1 text-xs text-red-700">
+                    <p className="mt-1 text-xs text-red-700 dark:text-red-400">
                       This removes {item.item_type_name} from inventory.
                     </p>
                     <div className="mt-3 flex flex-wrap gap-2">
@@ -181,20 +181,20 @@ function InventorySection({
                 )}
 
                 <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
-                  <div className="rounded-md bg-white px-3 py-2">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-stone-400">
+                  <div className="rounded-md bg-white px-3 py-2 dark:bg-stone-700">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-stone-400 dark:text-stone-500">
                       Purchase
                     </p>
-                    <p className="font-semibold text-stone-900">
+                    <p className="font-semibold text-stone-900 dark:text-stone-100">
                       {item.purchase_price}
                     </p>
                   </div>
                   {showSellingPrice && (
-                    <div className="rounded-md bg-white px-3 py-2">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-stone-400">
+                    <div className="rounded-md bg-white px-3 py-2 dark:bg-stone-700">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-stone-400 dark:text-stone-500">
                         Selling
                       </p>
-                      <p className="font-semibold text-stone-900">
+                      <p className="font-semibold text-stone-900 dark:text-stone-100">
                         {item.selling_price}
                       </p>
                     </div>
@@ -202,11 +202,11 @@ function InventorySection({
                 </div>
 
                 {!showSellingPrice && (
-                  <div className="mt-4 rounded-md border border-stone-200 bg-white p-3">
-                    <label className="flex items-center gap-2 text-sm font-semibold text-stone-700">
+                  <div className="mt-4 rounded-md border border-stone-200 bg-white dark:border-stone-600 dark:bg-stone-700 p-3">
+                    <label className="flex items-center gap-2 text-sm font-semibold text-stone-700 dark:text-stone-200">
                       <input
                         type="checkbox"
-                        className="h-4 w-4 accent-stone-700"
+                        className="h-4 w-4 accent-stone-700 dark:accent-stone-400"
                         checked={isChecked && item.id === sellingItemId}
                         onChange={(e) => {
                           if (!e.target.checked) {
@@ -254,7 +254,7 @@ function InventorySection({
               </div>
             ))
           ) : (
-            <div className="rounded-lg border border-dashed border-stone-200 p-5 text-center text-sm text-stone-500">
+            <div className="rounded-lg border border-dashed border-stone-200 dark:border-stone-600 p-5 text-center text-sm text-stone-500">
               No items in this section.
             </div>
           )}

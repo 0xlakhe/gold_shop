@@ -27,10 +27,10 @@ function Login() {
           <span className="mx-auto inline-flex h-12 w-12 items-center justify-center rounded-lg bg-stone-950 text-amber-300">
             <Landmark size={24} />
           </span>
-          <h1 className="mt-4 text-2xl font-bold text-stone-950">
+          <h1 className="mt-4 text-2xl font-bold text-stone-950 dark:text-stone-100">
             Welcome back
           </h1>
-          <p className="mt-1 text-sm text-stone-500">
+          <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
             Sign in to manage the gold shop ledger.
           </p>
         </div>
@@ -61,7 +61,7 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          {error && <p className="text-sm font-semibold text-red-600">{error}</p>}
+          {error && <p className="text-sm font-semibold text-red-600 dark:text-red-400">{error}</p>}
           <button className="btn-primary w-full" onClick={handleSubmit}>
             <LogIn size={16} />
             Login

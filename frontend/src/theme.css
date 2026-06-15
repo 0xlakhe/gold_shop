@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;700&family=Fira+Sans:wght@400;500;700&display=swap');
+
+:root {
+  /* Colors */
+  --color-primary-bg: #F8F5F0;
+  --color-secondary-bg: #fffdf8;
+  --color-text-dark: #333333;
+  --color-text-medium: #555555;
+  --color-text-light: #777777;
+  --color-accent-gold: #B89F70;
+  --color-border-light: #eadfca;
+  --color-border-medium: #efe5d3;
+  --color-shadow-light: #dfd0b8;
+
+  /* Fonts */
+  --font-body: 'Fira Sans', sans-serif;
+  --font-heading: 'Albert Sans', sans-serif;
+}

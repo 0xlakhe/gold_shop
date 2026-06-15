@@ -57,7 +57,7 @@ function SoldItems() {
       <div className="app-page">
         <Navbar />
         <div className="page-wrap">
-          <div className="panel panel-body text-red-600">
+          <div className="panel panel-body text-red-600 dark:text-red-400">
             Failed to load sold items.
           </div>
         </div>
@@ -106,40 +106,40 @@ function SoldItems() {
               <article className="panel panel-body" key={item.id}>
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <p className="text-lg font-bold text-stone-950">
+                    <p className="text-lg font-bold text-stone-950 dark:text-stone-100">
                       {item.item_type_name}
                     </p>
-                    <p className="mt-1 text-sm text-stone-500">
+                    <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
                       Sold {formatDate(item.sold_at)}
                     </p>
                   </div>
-                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-emerald-50 text-emerald-700">
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-emerald-50 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400">
                     <BadgeCheck size={18} />
                   </span>
                 </div>
 
                 <div className="mt-5 grid gap-3 text-sm">
                   <div className="list-row">
-                    <span className="text-stone-500">ID</span>
-                    <span className="font-semibold text-stone-950">{item.id}</span>
+                    <span className="text-stone-500 dark:text-stone-400">ID</span>
+                    <span className="font-semibold text-stone-950 dark:text-stone-100">{item.id}</span>
                   </div>
                   <div className="list-row">
-                    <span className="text-stone-500">
+                    <span className="text-stone-500 dark:text-stone-400">
                       {isGold ? "Karat" : "Purity"}
                     </span>
-                    <span className="font-semibold text-stone-950">
+                    <span className="font-semibold text-stone-950 dark:text-stone-100">
                       {isGold ? item.karat : `${item.purity_percent}%`}
                     </span>
                   </div>
                   <div className="list-row">
-                    <span className="text-stone-500">Purchase price</span>
-                    <span className="font-semibold text-stone-950">
+                    <span className="text-stone-500 dark:text-stone-400">Purchase price</span>
+                    <span className="font-semibold text-stone-950 dark:text-stone-100">
                       {item.purchase_price}
                     </span>
                   </div>
                   <div className="list-row">
-                    <span className="text-stone-500">Selling price</span>
-                    <span className="font-semibold text-emerald-700">
+                    <span className="text-stone-500 dark:text-stone-400">Selling price</span>
+                    <span className="font-semibold text-emerald-700 dark:text-emerald-400">
                       {item.selling_price}
                     </span>
                   </div>
@@ -147,7 +147,7 @@ function SoldItems() {
               </article>
             ))
           ) : (
-            <div className="panel panel-body text-sm text-stone-500">
+            <div className="panel panel-body text-sm text-stone-500 dark:text-stone-400">
               No sold items found.
             </div>
           )}

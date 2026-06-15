@@ -39,7 +39,7 @@ function Dashboard() {
       <div className="app-page">
         <Navbar />
         <div className="page-wrap">
-          <div className="panel panel-body text-red-600">{error}</div>
+          <div className="panel panel-body text-red-600 dark:text-red-400">{error}</div>
         </div>
       </div>
     );
@@ -47,19 +47,19 @@ function Dashboard() {
   const renderTypeBreakdown = (items = {}, metal) => {
     const entries = Object.entries(items);
     if (!entries.length) {
-      return <p className="text-sm text-stone-500">No items recorded yet.</p>;
+      return <p className="text-sm text-stone-500 dark:text-stone-400">No items recorded yet.</p>;
     }
 
     return (
       <div className="mt-4 space-y-2">
         {entries.map(([name, count]) => (
           <Link
-            className="list-row transition hover:border-amber-200 hover:bg-amber-50/60"
+            className="list-row transition hover:border-amber-200 hover:bg-amber-50/60 dark:hover:border-amber-700/40 dark:hover:bg-amber-900/15"
             key={name}
             to="/inventory"
             state={{ metal, typeName: name }}
           >
-            <span className="text-sm font-semibold text-stone-700">
+            <span className="text-sm font-semibold text-stone-700 dark:text-stone-200">
               {name}
             </span>
             <span className="badge">{String(count)}</span>
@@ -92,25 +92,25 @@ function Dashboard() {
           <div className="stat-card">
             <div className="flex items-center justify-between">
               <p className="stat-label">Gold price</p>
-              <Gem className="text-amber-600" size={20} />
+              <Gem className="text-amber-600 dark:text-amber-400" size={20} />
             </div>
             <p className="stat-value">{data.today_gold_price ?? "N/A"}</p>
-            <p className="mt-2 text-sm text-stone-500">Per tola today</p>
+            <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">Per tola today</p>
           </div>
           <div className="stat-card">
             <div className="flex items-center justify-between">
               <p className="stat-label">Silver price</p>
-              <Wallet className="text-stone-500" size={20} />
+              <Wallet className="text-stone-500 dark:text-stone-400" size={20} />
             </div>
             <p className="stat-value">{data.today_silver_price ?? "N/A"}</p>
-            <p className="mt-2 text-sm text-stone-500">Per tola today</p>
+            <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">Per tola today</p>
           </div>
           <div className="stat-card">
             <div className="flex items-center justify-between">
               <p className="stat-label">Price note</p>
-              <TrendingUp className="text-emerald-600" size={20} />
+              <TrendingUp className="text-emerald-600 dark:text-emerald-400" size={20} />
             </div>
-            <p className="mt-2 text-lg font-bold text-stone-950">
+            <p className="mt-2 text-lg font-bold text-stone-950 dark:text-stone-100">
               {data.price_note || "No note added"}
             </p>
           </div>
@@ -121,9 +121,9 @@ function Dashboard() {
             <div className="panel-header flex items-center justify-between">
               <div>
                 <p className="eyebrow">Inventory</p>
-                <h2 className="text-lg font-bold text-stone-950">Gold stock</h2>
+                <h2 className="text-lg font-bold text-stone-950 dark:text-stone-100">Gold stock</h2>
               </div>
-              <Package className="text-amber-600" size={20} />
+              <Package className="text-amber-600 dark:text-amber-400" size={20} />
             </div>
             <div className="panel-body">
               <div className="grid gap-4 sm:grid-cols-2">
@@ -144,11 +144,11 @@ function Dashboard() {
             <div className="panel-header flex items-center justify-between">
               <div>
                 <p className="eyebrow">Inventory</p>
-                <h2 className="text-lg font-bold text-stone-950">
+                <h2 className="text-lg font-bold text-stone-950 dark:text-stone-100">
                   Silver stock
                 </h2>
               </div>
-              <Package className="text-stone-500" size={20} />
+              <Package className="text-stone-500 dark:text-stone-400" size={20} />
             </div>
             <div className="panel-body">
               <div className="grid gap-4 sm:grid-cols-2">
@@ -176,40 +176,40 @@ function Dashboard() {
         <section className="panel mt-6">
           <div className="panel-header">
             <p className="eyebrow">This month</p>
-            <h2 className="text-lg font-bold text-stone-950">Sales report</h2>
+            <h2 className="text-lg font-bold text-stone-950 dark:text-stone-100">Sales report</h2>
           </div>
           <div className="panel-body grid gap-4 md:grid-cols-3">
-            <div className="rounded-lg bg-amber-50 p-4">
+            <div className="rounded-lg bg-amber-50 p-4 dark:bg-amber-900/20">
               <p className="stat-label">Gold items sold</p>
               <Link
                 to="/sold-items"
                 state={{ isGold: true, currentMonthOnly: true }}
-                className="mt-2 inline-flex items-center gap-2 text-2xl font-bold text-amber-900"
+                className="mt-2 inline-flex items-center gap-2 text-2xl font-bold text-amber-900 dark:text-amber-300"
               >
                 {data.this_month.gold_sold}
                 <ArrowUpRight size={18} />
               </Link>
-              <p className="mt-2 text-sm text-stone-600">
+              <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
                 Profit: {data.this_month.gold_profit}
               </p>
             </div>
-            <div className="rounded-lg bg-stone-100 p-4">
+            <div className="rounded-lg bg-stone-100 p-4 dark:bg-stone-800">
               <p className="stat-label">Silver items sold</p>
               <Link
                 to="/sold-items"
                 state={{ isGold: false, currentMonthOnly: true }}
-                className="mt-2 inline-flex items-center gap-2 text-2xl font-bold text-stone-950"
+                className="mt-2 inline-flex items-center gap-2 text-2xl font-bold text-stone-950 dark:text-stone-100"
               >
                 {data.this_month.silver_sold}
                 <ArrowUpRight size={18} />
               </Link>
-              <p className="mt-2 text-sm text-stone-600">
+              <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
                 Profit: {data.this_month.silver_profit}
               </p>
             </div>
-            <div className="rounded-lg bg-emerald-50 p-4">
+            <div className="rounded-lg bg-emerald-50 p-4 dark:bg-emerald-900/20">
               <p className="stat-label">Total profit</p>
-              <p className="mt-2 text-2xl font-bold text-emerald-900">
+              <p className="mt-2 text-2xl font-bold text-emerald-900 dark:text-emerald-300">
                 {data.this_month.total_profit}
               </p>
             </div>

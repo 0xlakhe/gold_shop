@@ -87,12 +87,12 @@ function Prices() {
         <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
           <section className="space-y-6">
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-lg border border-yellow-200 bg-yellow-50/60 p-5 shadow-sm shadow-stone-200/40">
+              <div className="rounded-lg border border-yellow-200 bg-yellow-50/60 dark:border-yellow-700/40 dark:bg-yellow-900/20 p-5 shadow-sm shadow-stone-200/40 dark:shadow-black/20">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium text-yellow-800">
+                  <p className="text-sm font-medium text-yellow-800 dark:text-yellow-300">
                     Latest gold price
                   </p>
-                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-white text-yellow-700">
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-white text-yellow-700 dark:bg-stone-700 dark:text-yellow-400">
                     <Coins size={19} />
                   </span>
                 </div>
@@ -100,12 +100,12 @@ function Prices() {
                   {todayPrice?.gold_price_per_tola ?? "N/A"}
                 </p>
               </div>
-              <div className="rounded-lg border border-slate-200 bg-slate-50 p-5 shadow-sm shadow-stone-200/40">
+              <div className="rounded-lg border border-slate-200 bg-slate-50 dark:border-slate-700/40 dark:bg-slate-900/20 p-5 shadow-sm shadow-stone-200/40 dark:shadow-black/20">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium text-slate-600">
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-300">
                     Latest silver price
                   </p>
-                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-white text-slate-500">
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-white text-slate-500 dark:bg-stone-700 dark:text-slate-400">
                     <Coins size={19} />
                   </span>
                 </div>
@@ -122,14 +122,14 @@ function Prices() {
                 onClick={() => setIsHistoryOpen(!isHistoryOpen)}
               >
                 <span className="flex items-center gap-3">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-stone-100 text-stone-700">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-stone-100 text-stone-700 dark:bg-stone-700 dark:text-stone-300">
                     <History size={20} />
                   </span>
                   <span>
-                    <span className="block text-lg font-bold text-stone-950">
+                    <span className="block text-lg font-bold text-stone-950 dark:text-stone-100">
                       Price history
                     </span>
-                    <span className="text-sm text-stone-500">
+                    <span className="text-sm text-stone-500 dark:text-stone-400">
                       {historyPrice.length} recorded updates
                     </span>
                   </span>
@@ -141,32 +141,32 @@ function Prices() {
                 )}
               </button>
               {isHistoryOpen && (
-                <div className="space-y-3 border-t border-stone-100 p-5">
+                <div className="space-y-3 border-t border-stone-100 dark:border-stone-700 p-5">
                   {historyPrice.length ? (
                     historyPrice.map((item) => (
                       <div
-                        className="rounded-lg border border-[#efe5d3] bg-[#fffaf0] p-4"
+                        className="rounded-lg border border-[#efe5d3] bg-[#fffaf0] dark:border-stone-700 dark:bg-stone-800/80 p-4"
                         key={item.id}
                       >
                         <div className="mb-3">
-                          <p className="font-semibold text-stone-950">
+                          <p className="font-semibold text-stone-950 dark:text-stone-100">
                             {formatDate(item.date)}
                           </p>
                         </div>
                         <div className="grid gap-3 sm:grid-cols-2">
-                          <div className="rounded-md border border-yellow-200 bg-yellow-50/70 px-3 py-2">
-                            <p className="text-xs font-semibold uppercase tracking-wide text-yellow-800">
+                          <div className="rounded-md border border-yellow-200 bg-yellow-50/70 dark:border-yellow-700/40 dark:bg-yellow-900/20 px-3 py-2">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-yellow-800 dark:text-yellow-300">
                               Gold
                             </p>
-                            <p className="mt-1 font-bold text-stone-950">
+                            <p className="mt-1 font-bold text-stone-950 dark:text-stone-100">
                               {item.gold_price_per_tola}
                             </p>
                           </div>
-                          <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2">
-                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+                          <div className="rounded-md border border-slate-200 bg-slate-50 dark:border-slate-700/40 dark:bg-slate-900/20 px-3 py-2">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-600 dark:text-slate-300">
                               Silver
                             </p>
-                            <p className="mt-1 font-bold text-stone-950">
+                            <p className="mt-1 font-bold text-stone-950 dark:text-stone-100">
                               {item.silver_price_per_tola}
                             </p>
                           </div>
@@ -174,7 +174,7 @@ function Prices() {
                       </div>
                     ))
                   ) : (
-                    <div className="rounded-lg border border-dashed border-stone-200 p-6 text-center text-sm text-stone-500">
+                    <div className="rounded-lg border border-dashed border-stone-200 dark:border-stone-600 p-6 text-center text-sm text-stone-500 dark:text-stone-400">
                       No price history yet.
                     </div>
                   )}
@@ -185,10 +185,10 @@ function Prices() {
 
           <aside className="panel h-fit">
             <div className="panel-header">
-              <h2 className="text-lg font-bold text-stone-950">
+              <h2 className="text-lg font-bold text-stone-950 dark:text-stone-100">
                 Set today's price
               </h2>
-              <p className="text-sm text-stone-500">
+              <p className="text-sm text-stone-500 dark:text-stone-400">
                 Enter both metal rates before saving.
               </p>
             </div>

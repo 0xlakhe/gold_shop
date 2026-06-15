@@ -133,14 +133,14 @@ function ItemTypes() {
             <section className="panel">
               <div className="panel-header flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-amber-700">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300">
                     <Tags size={20} />
                   </span>
                   <div>
-                    <h2 className="text-lg font-bold text-stone-950">
+                    <h2 className="text-lg font-bold text-stone-950 dark:text-stone-100">
                       All types
                     </h2>
-                    <p className="text-sm text-stone-500">
+                    <p className="text-sm text-stone-500 dark:text-stone-400">
                       Edit names inline or remove unused types.
                     </p>
                   </div>
@@ -190,10 +190,10 @@ function ItemTypes() {
                         ) : (
                           <>
                             <div>
-                              <p className="font-semibold text-stone-950">
+                              <p className="font-semibold text-stone-950 dark:text-stone-100">
                                 {item.name}
                               </p>
-                              <p className="text-xs text-stone-500">
+                              <p className="text-xs text-stone-500 dark:text-stone-400">
                                 Type ID: {item.id}
                               </p>
                             </div>
@@ -225,7 +225,7 @@ function ItemTypes() {
                       </div>
                     ))
                   ) : (
-                    <div className="rounded-lg border border-dashed border-stone-200 p-6 text-center text-sm text-stone-500">
+                    <div className="rounded-lg border border-dashed border-stone-200 dark:border-stone-600 p-6 text-center text-sm text-stone-500 dark:text-stone-400">
                       No item types yet. Create the first one from the panel.
                     </div>
                   )}
@@ -235,10 +235,10 @@ function ItemTypes() {
 
             <aside className="panel h-fit">
               <div className="panel-header">
-                <h2 className="text-lg font-bold text-stone-950">
+                <h2 className="text-lg font-bold text-stone-950 dark:text-stone-100">
                   Create type
                 </h2>
-                <p className="text-sm text-stone-500">
+                <p className="text-sm text-stone-500 dark:text-stone-400">
                   Add names like Ring, Chain, Bangle, or Coin.
                 </p>
               </div>
