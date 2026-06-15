@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Navbar from "../components/Navbar";
-import useToast from "../components/useToast";
+import useToast from "../context/useToast";
 import {
   createNewType,
   deleteType,

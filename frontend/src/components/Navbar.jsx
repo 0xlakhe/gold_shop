@@ -1,10 +1,12 @@
 import { Landmark, LogOut, Moon, Sun } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
+import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
   const navigate = useNavigate();
   const { dark, toggle } = useTheme();
+  const { logoutUser } = useAuth();
   const navItems = [
     { label: "Dashboard", to: "/dashboard" },
     { label: "Inventory", to: "/inventory" },
@@ -13,7 +15,7 @@ function Navbar() {
   ];
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    logoutUser();
     navigate("/login");
   };
   const handleDashboard = () => {

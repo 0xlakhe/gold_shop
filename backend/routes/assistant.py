@@ -1,3 +1,5 @@
+import logging
+import os
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
@@ -8,7 +10,11 @@ from agent.tools import tools
 from models.models import User
 from agent.executor import execute_tool
 
+logger = logging.getLogger(__name__)
+
 assistant_router = APIRouter(prefix="/assistant")
+
+MODEL = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-20250514")
 
 
 class ChatRequest(BaseModel):
@@ -37,33 +43,25 @@ def chat(
     db: Session = Depends(get_db),
 ):
     try:
-        print("this is request")
-        print(req)
-        print("")
         messages = list(req.history)
         messages.append({"role": "user", "content": req.message})
 
         response = client.messages.create(
-            model="mimo-v2.5-pro",
+            model=MODEL,
             max_tokens=1024,
             system=SYSTEM_PROMPT,
             messages=messages,
             tools=tools,
         )
-        print("this is response")
-        print(response)
-        print("")
+
         while response.stop_reason == "tool_use":
-            print("this is message")
-            print(messages)
-            print("")
             messages.append({"role": "assistant", "content": response.content})
             content_blocks = []
 
             for block in response.content:
                 if block.type == "tool_use":
                     result = execute_tool(block.name, block.input, db, user.id)
-                    content_blocks.append( 
+                    content_blocks.append(
                         {
                             "type": "tool_result",
                             "tool_use_id": block.id,
@@ -72,23 +70,17 @@ def chat(
                     )
 
             messages.append({"role": "user", "content": content_blocks})
-            print("this is block")
-            print(content_blocks)
-            print("")
             response = client.messages.create(
-                model="mimo-v2.5-pro",
+                model=MODEL,
                 max_tokens=1024,
                 system=SYSTEM_PROMPT,
                 messages=messages,
                 tools=tools,
             )
-        print("this is response")
-        print(response)
-        print("")
+
         text = next((b.text for b in response.content if b.type == "text"), "")
-        print("this is text")
-        print(text)
         return ChatResponse(response=text)
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.exception("Assistant chat error")
+        raise HTTPException(status_code=500, detail="Something went wrong. Please try again.")

@@ -30,8 +30,8 @@ app.add_middleware(
     ],
     allow_origin_regex=r"https://gold-shop-.*\.vercel\.app",
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 
 app.include_router(auth_router, prefix="/auth")

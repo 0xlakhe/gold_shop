@@ -14,6 +14,7 @@ A full-stack gold and silver shop inventory system. The app helps a shop owner m
 - Daily gold/silver price setting and price history
 - Sold item views with current-month filtering from the dashboard
 - Cream-themed React UI with toast notifications
+- AI assistant chat widget powered by Anthropic Claude (add/sell items, set prices, query inventory, profit reports)
 
 ## Tech Stack
 
@@ -46,12 +47,14 @@ gold_inventory/
     models/                 SQLAlchemy models and Pydantic schemas
     routes/                 API route modules
     crud/                   Database operation helpers
+    agent/                  Claude SDK client, tool definitions, and tool executor
     alembic/                Database migrations
     pyproject.toml          Backend dependencies
   frontend/
     src/
       api/                  Axios API clients
       components/           Shared UI/components
+      context/              React contexts (theme, auth, toast)
       pages/                App pages
       App.jsx               Route definitions
       main.jsx              React entrypoint
@@ -73,6 +76,14 @@ Create `backend/.env`:
 ```env
 DATABASE_URL=postgresql://gold_user:password123@localhost/gold_shop
 SECRET_KEY=replace-with-a-long-random-secret
+ANTHROPIC_AUTH_KEY=your-anthropic-api-key
+```
+
+Optional backend env vars:
+
+```env
+ANTHROPIC_BASE_URL=https://api.anthropic.com
+ANTHROPIC_MODEL=claude-sonnet-4-20250514
 ```
 
 Create `frontend/.env` if your API is not running at the default `http://127.0.0.1:8000`:
@@ -197,6 +208,9 @@ Silver:
 - Sell silver item
 - Delete unsold silver item
 
+Assistant:
+- `POST /assistant/chat` — natural-language agent with tool calling (add/sell items, set prices, inventory summary, profit reports)
+
 Most non-auth routes require an `Authorization: Bearer <token>` header. The frontend stores the login token in `localStorage` and attaches it through the Axios interceptor in `frontend/src/api/axios.js`.
 
 ## Frontend Scripts
@@ -231,7 +245,8 @@ Backend:
 web: uvicorn main:app --host 0.0.0.0 --port $PORT
 ```
 
-- Set `DATABASE_URL` and `SECRET_KEY` in the backend hosting environment.
+- Set `DATABASE_URL`, `SECRET_KEY`, and `ANTHROPIC_AUTH_KEY` in the backend hosting environment.
+- Optionally set `ANTHROPIC_BASE_URL` and `ANTHROPIC_MODEL` to override defaults.
 - Make sure the production frontend origin is allowed in `CORSMiddleware` inside `backend/main.py`.
 
 ## Troubleshooting

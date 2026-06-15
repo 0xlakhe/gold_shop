@@ -13,7 +13,7 @@ import {
   Gem,
   Trash2,
 } from "lucide-react";
-import useToast from "./useToast";
+import useToast from "../context/useToast";
 
 function InventorySection({
   title,
@@ -115,7 +115,7 @@ function InventorySection({
           </span>
           <span>
             <span className="block font-bold text-stone-950 dark:text-stone-100">{title}</span>
-            <span className="text-xs font-medium text-stone-500 dark:text-stone-400 dark:text-stone-500">
+            <span className="text-xs font-medium text-stone-500 dark:text-stone-400">
               {items.length} {items.length === 1 ? "entry" : "entries"}
             </span>
           </span>
@@ -135,7 +135,7 @@ function InventorySection({
                     <p className="font-bold text-stone-950 dark:text-stone-100">
                       {item.item_type_name}
                     </p>
-                    <p className="mt-1 text-sm text-stone-500 dark:text-stone-400 dark:text-stone-500">
+                    <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
                       {isGoldSection
                         ? `Karat: ${item.karat}`
                         : `Purity: ${item.purity_percent}%`}

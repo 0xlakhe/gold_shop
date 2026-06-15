@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { getAllPrice, getPrice, setPrice } from "../api/prices";
 import { ChevronDown, ChevronUp, Coins, History, Save } from "lucide-react";
-import useToast from "../components/useToast";
+import useToast from "../context/useToast";
 
 function Prices() {
   const toast = useToast();

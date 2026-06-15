@@ -103,6 +103,9 @@ This project is a full-stack application composed of a Python/FastAPI backend an
 *   **Backend (`backend/.env`):**
     *   `DATABASE_URL`: PostgreSQL connection string (e.g., `postgresql://gold_user:password123@localhost/gold_shop`).
     *   `SECRET_KEY`: A long, random string for JWT token signing.
+    *   `ANTHROPIC_AUTH_KEY`: API key for the Anthropic Claude SDK.
+    *   `ANTHROPIC_BASE_URL` (optional): Base URL for the Anthropic API. Defaults to `https://api.anthropic.com`.
+    *   `ANTHROPIC_MODEL` (optional): Model ID for the assistant. Defaults to `claude-sonnet-4-20250514`.
 *   **Frontend (`frontend/.env` - if API is not default):**
     *   `VITE_API_URL`: URL of the backend API (e.g., `http://127.0.0.1:8000`).
 

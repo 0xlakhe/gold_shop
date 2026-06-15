@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { addGoldItem, addSilverItem } from "../api/inventory";
-import useToast from "./useToast";
+import useToast from "../context/useToast";
 
 function AddGoldItemSection({ item_id, itemAdded }) {
   const toast = useToast();

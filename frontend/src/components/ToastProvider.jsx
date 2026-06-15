@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { CheckCircle2, Info, TriangleAlert, X, XCircle } from "lucide-react";
-import ToastContext from "./toastContext";
+import ToastContext from "../context/toastContext";
 
 const toastStyles = {
   success: {

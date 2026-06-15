@@ -8,9 +8,10 @@ import Prices from "./pages/Prices";
 import SoldItems from "./pages/SoldItems";
 import Register from "./pages/Register";
 import ChatWidget from "./components/ChatWidget";
+import { useAuth } from "./context/AuthContext";
 
 function App() {
-  const token = localStorage.getItem("token");
+  const { token } = useAuth();
 
   return (
     <>

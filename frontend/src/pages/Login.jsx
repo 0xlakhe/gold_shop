@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../api/auth";
+import { useAuth } from "../context/AuthContext";
 import { Landmark, LogIn } from "lucide-react";
 
 function Login() {
@@ -8,11 +9,12 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { loginUser } = useAuth();
 
   const handleSubmit = async () => {
     try {
       const res = await login({ identifier, password });
-      localStorage.setItem("token", res.data.access_token);
+      loginUser(res.data.access_token);
       console.log(identifier, password);
       navigate("/dashboard");
     } catch {
