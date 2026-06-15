@@ -67,6 +67,20 @@ tools = [
         "input_schema": {"type": "object", "properties": {}},
     },
     {
+        "name": "create_item_type",
+        "description": "Create new item type",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "item_name": {
+                    "type": "string",
+                    "description": "Name of item type to add",
+                },
+            },
+            "required": ["item_name"],
+        },
+    },
+    {
         "name": "add_silver_item",
         "description": "Add a new silver item to inventory",
         "input_schema": {

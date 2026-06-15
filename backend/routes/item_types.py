@@ -5,7 +5,7 @@ from database import get_db
 from dependencies import get_current_user
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
-from crud.item_types_crud import createNewType, deleteType, updateType
+from crud.item_types_crud import createNewType, deleteType, updateType, getAllItemTypes
 
 item_types_router = APIRouter(prefix="/item-types")
 
@@ -23,7 +23,7 @@ def create_new_type(
 def get_all_types(
     user: User = Depends(get_current_user), db: Session = Depends(get_db)
 ):
-    return db.query(ItemType).filter(ItemType.user_id == user.id).all()
+    return getAllItemTypes(db,user.id)
 
 
 @item_types_router.delete("/{type_id}")

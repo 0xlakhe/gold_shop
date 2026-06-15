@@ -5,6 +5,10 @@ from models.models import ItemType
 from fastapi import HTTPException, status
 
 
+def getAllItemTypes(db: Session, user_id: int):
+    return db.query(ItemType).filter(ItemType.user_id == user_id).all()
+
+
 def createNewType(db: Session, user_id: int, itemName: ItemTypeCreate):
     existing_type = (
         db.query(ItemType)
@@ -55,7 +59,11 @@ def deleteType(db: Session, user_id: int, type_id: int):
 
 
 def updateType(db: Session, user_id: int, type_id: int, item_name: ItemTypeCreate):
-    db_item_type = db.query(ItemType).filter(ItemType.user_id==user_id,ItemType.id == type_id).first()
+    db_item_type = (
+        db.query(ItemType)
+        .filter(ItemType.user_id == user_id, ItemType.id == type_id)
+        .first()
+    )
 
     if not db_item_type:
         raise HTTPException(
@@ -64,7 +72,11 @@ def updateType(db: Session, user_id: int, type_id: int, item_name: ItemTypeCreat
 
     name_taken = (
         db.query(ItemType)
-        .filter(ItemType.user_id==user_id,ItemType.name == item_name.name, ItemType.id != type_id)
+        .filter(
+            ItemType.user_id == user_id,
+            ItemType.name == item_name.name,
+            ItemType.id != type_id,
+        )
         .first()
     )
 
