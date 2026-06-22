@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="Architecture">
+    <mxGraphModel dx="1800" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TITLE -->
+        <mxCell id="title" value="&lt;b&gt;Gold &amp; Silver Inventory Management System&lt;/b&gt;&lt;br&gt;Architecture Overview" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="420" y="10" width="400" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- FRONTEND TIER -->
+        <mxCell id="fe_tier" value="&lt;b&gt;Frontend&lt;/b&gt;&lt;br&gt;React 19 + Vite + Tailwind CSS" style="swimlane;startSize=35;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=1;arcSize=8;html=1;fontSize=13;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="30" y="80" width="360" height="820" as="geometry" />
+        </mxCell>
+
+        <!-- Context Providers -->
+        <mxCell id="fe_context" value="&lt;b&gt;Context Providers&lt;/b&gt;" style="swimlane;startSize=25;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;arcSize=10;html=1;fontSize=11;" vertex="1" parent="fe_tier">
+          <mxGeometry x="20" y="50" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="auth_ctx" value="AuthContext&#xa;(JWT in localStorage)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="fe_context">
+          <mxGeometry x="10" y="30" width="145" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="theme_ctx" value="ThemeContext&#xa;(Dark/Light mode)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="fe_context">
+          <mxGeometry x="165" y="30" width="145" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="toast_ctx" value="ToastProvider" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="fe_context">
+          <mxGeometry x="90" y="75" width="140" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Pages -->
+        <mxCell id="fe_pages" value="&lt;b&gt;Pages&lt;/b&gt;" style="swimlane;startSize=25;fillColor=#fff2cc;strokeColor=#d6b656;rounded=1;arcSize=10;html=1;fontSize=11;" vertex="1" parent="fe_tier">
+          <mxGeometry x="20" y="175" width="320" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="page_login" value="Login&#xa;Register" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="fe_pages">
+          <mxGeometry x="10" y="30" width="95" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="page_dashboard" value="Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="fe_pages">
+          <mxGeometry x="115" y="30" width="95" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="page_inventory" value="Inventory" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="fe_pages">
+          <mxGeometry x="220" y="30" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="page_prices" value="Prices" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="fe_pages">
+          <mxGeometry x="10" y="80" width="95" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="page_itemtypes" value="Item Types" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="fe_pages">
+          <mxGeometry x="115" y="80" width="95" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="page_sold" value="Sold Items" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="fe_pages">
+          <mxGeometry x="220" y="80" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="page_chat" value="ChatWidget&#xa;(AI Assistant)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;fontColor=#333333;" vertex="1" parent="fe_pages">
+          <mxGeometry x="80" y="135" width="160" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Components -->
+        <mxCell id="fe_comps" value="&lt;b&gt;Components&lt;/b&gt;" style="swimlane;startSize=25;fillColor=#d5e8d4;strokeColor=#82b366;rounded=1;arcSize=10;html=1;fontSize=11;" vertex="1" parent="fe_tier">
+          <mxGeometry x="20" y="380" width="320" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="comp_navbar" value="Navbar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="fe_comps">
+          <mxGeometry x="10" y="30" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="comp_inv_section" value="Inventory&#xa;Section" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="fe_comps">
+          <mxGeometry x="90" y="30" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="comp_add_item" value="Add Item&#xa;Section" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="fe_comps">
+          <mxGeometry x="170" y="30" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="comp_protect" value="Protected&#xa;Route" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="fe_comps">
+          <mxGeometry x="250" y="30" width="60" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- API Layer -->
+        <mxCell id="fe_api" value="&lt;b&gt;API Layer (Axios)&lt;/b&gt;" style="swimlane;startSize=25;fillColor=#ffe6cc;strokeColor=#d79b00;rounded=1;arcSize=10;html=1;fontSize=11;" vertex="1" parent="fe_tier">
+          <mxGeometry x="20" y="485" width="320" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="api_auth" value="auth.js" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="fe_api">
+          <mxGeometry x="10" y="30" width="60" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="api_inv" value="inventory.js" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="fe_api">
+          <mxGeometry x="80" y="30" width="75" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="api_prices" value="prices.js" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="fe_api">
+          <mxGeometry x="165" y="30" width="60" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="api_dash" value="dashboard.js" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="fe_api">
+          <mxGeometry x="10" y="60" width="80" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="api_types" value="itemTypes.js" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="fe_api">
+          <mxGeometry x="100" y="60" width="80" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="api_assistant" value="assistant.js" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="fe_api">
+          <mxGeometry x="190" y="60" width="75" height="15" as="geometry" />
+        </mxCell>
+
+        <!-- Deployment note -->
+        <mxCell id="fe_deploy" value="&lt;i&gt;Deployed on Vercel&lt;/i&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontColor=#666666;" vertex="1" parent="fe_tier">
+          <mxGeometry x="100" y="785" width="160" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- BACKEND TIER -->
+        <mxCell id="be_tier" value="&lt;b&gt;Backend&lt;/b&gt;&lt;br&gt;FastAPI (Python 3.13+)" style="swimlane;startSize=35;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=1;arcSize=8;html=1;fontSize=13;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="440" y="80" width="500" height="820" as="geometry" />
+        </mxCell>
+
+        <!-- Auth -->
+        <mxCell id="be_auth" value="&lt;b&gt;Authentication&lt;/b&gt;" style="swimlane;startSize=25;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;arcSize=10;html=1;fontSize=11;" vertex="1" parent="be_tier">
+          <mxGeometry x="20" y="50" width="220" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="auth_route" value="auth_route.py&#xa;POST /auth/register&#xa;POST /auth/login" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="be_auth">
+          <mxGeometry x="10" y="30" width="200" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="auth_crud" value="auth_crud.py&#xa;createUser / loginUser" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="be_auth">
+          <mxGeometry x="10" y="80" width="200" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Dependencies -->
+        <mxCell id="be_deps" value="dependencies.py&#xa;get_current_user()&#xa;JWT Bearer extraction" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="be_tier">
+          <mxGeometry x="260" y="50" width="220" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Routes -->
+        <mxCell id="be_routes" value="&lt;b&gt;API Routes&lt;/b&gt;" style="swimlane;startSize=25;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=1;arcSize=10;html=1;fontSize=11;" vertex="1" parent="be_tier">
+          <mxGeometry x="20" y="180" width="460" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="route_itemtypes" value="item_types.py&#xa;CRUD /item-types" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="be_routes">
+          <mxGeometry x="10" y="30" width="105" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="route_prices" value="daily_prices.py&#xa;/prices" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="be_routes">
+          <mxGeometry x="125" y="30" width="105" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="route_gold" value="gold_items.py&#xa;/gold" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="be_routes">
+          <mxGeometry x="240" y="30" width="105" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="route_silver" value="silver_items.py&#xa;/silver" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="be_routes">
+          <mxGeometry x="355" y="30" width="95" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="route_dashboard" value="dashboard.py&#xa;GET /dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="be_routes">
+          <mxGeometry x="60" y="85" width="105" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="route_assistant" value="assistant.py&#xa;POST /assistant/chat" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="be_routes">
+          <mxGeometry x="180" y="85" width="130" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- CRUD Layer -->
+        <mxCell id="be_crud" value="&lt;b&gt;CRUD Layer&lt;/b&gt;" style="swimlane;startSize=25;fillColor=#d5e8d4;strokeColor=#82b366;rounded=1;arcSize=10;html=1;fontSize=11;" vertex="1" parent="be_tier">
+          <mxGeometry x="20" y="350" width="460" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="crud_items" value="items_crud.py&#xa;(polymorphic: Gold + Silver)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="be_crud">
+          <mxGeometry x="10" y="30" width="140" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="crud_types" value="item_types_crud.py" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="be_crud">
+          <mxGeometry x="160" y="30" width="110" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="crud_prices" value="daily_prices_crud.py" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="be_crud">
+          <mxGeometry x="160" y="60" width="110" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="crud_dashboard" value="dashboard_crud.py&#xa;(shared: dashboard + agent)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="be_crud">
+          <mxGeometry x="280" y="30" width="170" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- AI Agent -->
+        <mxCell id="be_agent" value="&lt;b&gt;AI Agent (Claude)&lt;/b&gt;" style="swimlane;startSize=25;fillColor=#f8cecc;strokeColor=#b85450;rounded=1;arcSize=10;html=1;fontSize=11;" vertex="1" parent="be_tier">
+          <mxGeometry x="20" y="480" width="460" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="agent_client" value="client.py&#xa;Anthropic SDK" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="be_agent">
+          <mxGeometry x="10" y="30" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="agent_tools" value="tools.py&#xa;8 tool definitions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="be_agent">
+          <mxGeometry x="120" y="30" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="agent_executor" value="executor.py&#xa;execute_tool()&#xa;dispatches to CRUD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="be_agent">
+          <mxGeometry x="230" y="30" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="agent_loop" value="Agentic loop:&#xa;tool_use ? execute : respond" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;dashed=1;" vertex="1" parent="be_agent">
+          <mxGeometry x="350" y="30" width="100" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="agent_note" value="8 tools: add_gold_item, add_silver_item, sell_item, set_daily_price, get_inventory_summary, get_profit_report, get_all_item_types, create_item_type" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=8;fontColor=#666666;" vertex="1" parent="be_agent">
+          <mxGeometry x="10" y="80" width="440" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Models -->
+        <mxCell id="be_models" value="&lt;b&gt;Models &amp; Schemas&lt;/b&gt;" style="swimlane;startSize=25;fillColor=#f5f5f5;strokeColor=#666666;rounded=1;arcSize=10;html=1;fontSize=11;" vertex="1" parent="be_tier">
+          <mxGeometry x="20" y="620" width="460" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="model_user" value="User" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;" vertex="1" parent="be_models">
+          <mxGeometry x="10" y="30" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="model_itemtype" value="ItemType" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;" vertex="1" parent="be_models">
+          <mxGeometry x="80" y="30" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="model_dailyprice" value="DailyPrice" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;" vertex="1" parent="be_models">
+          <mxGeometry x="160" y="30" width="75" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="model_golditem" value="GoldItem" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;" vertex="1" parent="be_models">
+          <mxGeometry x="245" y="30" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="model_silveritem" value="SilverItem" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;" vertex="1" parent="be_models">
+          <mxGeometry x="325" y="30" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="model_schemas" value="Pydantic Schemas: UserRegister, UserLogin, Token, ItemTypeCreate/Response, DailyPriceCreate/Response, GoldItemCreate/Sell/Response, SilverItemCreate/Sell/Response, DashboardResponse" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=8;fontColor=#666666;" vertex="1" parent="be_models">
+          <mxGeometry x="10" y="65" width="440" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Deploy note -->
+        <mxCell id="be_deploy" value="&lt;i&gt;Procfile: uvicorn main:app&lt;/i&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontColor=#666666;" vertex="1" parent="be_tier">
+          <mxGeometry x="150" y="785" width="200" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- DATA TIER -->
+        <mxCell id="data_tier" value="&lt;b&gt;Data Layer&lt;/b&gt;" style="swimlane;startSize=35;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=1;arcSize=8;html=1;fontSize=13;swimlaneLine=0;" vertex="1" parent="1">
+          <mxGeometry x="990" y="80" width="260" height="820" as="geometry" />
+        </mxCell>
+
+        <!-- PostgreSQL -->
+        <mxCell id="db_pg" value="&lt;b&gt;PostgreSQL&lt;/b&gt;" style="swimlane;startSize=25;fillColor=#d5e8d4;strokeColor=#82b366;rounded=1;arcSize=10;html=1;fontSize=11;" vertex="1" parent="data_tier">
+          <mxGeometry x="20" y="50" width="220" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="db_icon" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;size=15;" vertex="1" parent="db_pg">
+          <mxGeometry x="70" y="30" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="db_tables" value="&lt;b&gt;Tables&lt;/b&gt; (all user-scoped):&#xa;&#x2022; users&#xa;&#x2022; item_types&#xa;&#x2022; daily_prices&#xa;&#x2022; gold_item&#xa;&#x2022; silver_item" style="text;html=1;align=left;verticalAlign=top;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#333333;" vertex="1" parent="db_pg">
+          <mxGeometry x="20" y="100" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="db_orm" value="SQLAlchemy + Alembic" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontColor=#666666;fontStyle=2;" vertex="1" parent="db_pg">
+          <mxGeometry x="40" y="220" width="140" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Anthropic API -->
+        <mxCell id="ext_anthropic" value="&lt;b&gt;Anthropic API&lt;/b&gt;" style="swimlane;startSize=25;fillColor=#f8cecc;strokeColor=#b85450;rounded=1;arcSize=10;html=1;fontSize=11;" vertex="1" parent="data_tier">
+          <mxGeometry x="20" y="330" width="220" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="anthropic_icon" value="Claude&#xa;Sonnet" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" vertex="1" parent="ext_anthropic">
+          <mxGeometry x="60" y="30" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="anthropic_note" value="Tool-use agentic loop&#xa;8 inventory management tools" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;fontColor=#666666;" vertex="1" parent="ext_anthropic">
+          <mxGeometry x="30" y="95" width="160" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Deployment -->
+        <mxCell id="ext_deploy" value="&lt;b&gt;Deployment&lt;/b&gt;" style="swimlane;startSize=25;fillColor=#f5f5f5;strokeColor=#666666;rounded=1;arcSize=10;html=1;fontSize=11;" vertex="1" parent="data_tier">
+          <mxGeometry x="20" y="480" width="220" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="deploy_fe" value="Frontend:&#xa;Vercel (gold-shop-zeta.vercel.app)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="ext_deploy">
+          <mxGeometry x="10" y="30" width="200" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="deploy_be" value="Backend:&#xa;Procfile (uvicorn main:app)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="ext_deploy">
+          <mxGeometry x="10" y="60" width="200" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Env vars -->
+        <mxCell id="ext_env" value="&lt;b&gt;Env Vars&lt;/b&gt;" style="swimlane;startSize=25;fillColor=#fff2cc;strokeColor=#d6b656;rounded=1;arcSize=10;html=1;fontSize=11;" vertex="1" parent="data_tier">
+          <mxGeometry x="20" y="600" width="220" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="env_be" value="Backend:&#xa;DATABASE_URL, SECRET_KEY&#xa;ANTHROPIC_AUTH_KEY&#xa;ANTHROPIC_BASE_URL&#xa;ANTHROPIC_MODEL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;align=left;spacingLeft=8;" vertex="1" parent="ext_env">
+          <mxGeometry x="10" y="30" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="env_fe" value="Frontend:&#xa;VITE_API_URL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;align=left;spacingLeft=8;" vertex="1" parent="ext_env">
+          <mxGeometry x="10" y="95" width="200" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- EDGES -->
+
+        <!-- Frontend Pages -> API Layer -->
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="page_login" target="api_auth">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="page_inventory" target="api_inv">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="page_chat" target="api_assistant">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- API Layer -> Backend Routes -->
+        <mxCell id="e10" value="HTTP/JSON" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontStyle=2;fontSize=9;" edge="1" parent="1" source="fe_api" target="be_routes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Auth flow -->
+        <mxCell id="e11" value="register / login" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontStyle=2;fontSize=9;" edge="1" parent="1" source="api_auth" target="auth_route">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="430" y="180" />
+              <mxPoint x="430" y="105" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Routes -> CRUD -->
+        <mxCell id="e20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="be_routes" target="be_crud">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Assistant -> Agent -->
+        <mxCell id="e21" value="tool use" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontStyle=2;fontSize=9;" edge="1" parent="1" source="route_assistant" target="be_agent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Agent -> CRUD -->
+        <mxCell id="e22" value="delegates" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontStyle=2;fontSize=9;" edge="1" parent="1" source="agent_executor" target="crud_dashboard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- CRUD -> Database -->
+        <mxCell id="e30" value="SQLAlchemy" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontStyle=2;fontSize=9;" edge="1" parent="1" source="be_crud" target="db_pg">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="975" y="410" />
+              <mxPoint x="975" y="175" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Agent -> Anthropic -->
+        <mxCell id="e31" value="Claude API&#xa;(tool-use loop)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontStyle=2;fontSize=9;" edge="1" parent="1" source="be_agent" target="ext_anthropic">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="975" y="540" />
+              <mxPoint x="975" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Auth -> Dependencies -->
+        <mxCell id="e40" value="JWT" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontStyle=2;fontSize=9;" edge="1" parent="1" source="auth_crud" target="be_deps">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Protected Route -> Auth Context -->
+        <mxCell id="e41" value="checks token" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontStyle=2;fontSize=9;dashed=1;" edge="1" parent="1" source="comp_protect" target="auth_ctx">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Axios interceptor -> Auth Context -->
+        <mxCell id="e42" value="Bearer token" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontStyle=2;fontSize=9;dashed=1;" edge="1" parent="1" source="api_auth" target="auth_ctx">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="210" y="460" />
+              <mxPoint x="210" y="195" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

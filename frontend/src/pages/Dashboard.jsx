@@ -15,7 +15,7 @@ function Dashboard() {
         setData(res.data);
         console.log(res);
       } catch (err) {
-        setError("Failed to load dashboard");
+        setError("Add data first");
         console.log(err);
       } finally {
         setLoading(false);
@@ -39,7 +39,9 @@ function Dashboard() {
       <div className="app-page">
         <Navbar />
         <div className="page-wrap">
-          <div className="panel panel-body text-red-600 dark:text-red-400">{error}</div>
+          <div className="panel panel-body text-red-600 dark:text-red-400">
+            {error}
+          </div>
         </div>
       </div>
     );
@@ -47,7 +49,11 @@ function Dashboard() {
   const renderTypeBreakdown = (items = {}, metal) => {
     const entries = Object.entries(items);
     if (!entries.length) {
-      return <p className="text-sm text-stone-500 dark:text-stone-400">No items recorded yet.</p>;
+      return (
+        <p className="text-sm text-stone-500 dark:text-stone-400">
+          No items recorded yet.
+        </p>
+      );
     }
 
     return (
@@ -95,20 +101,30 @@ function Dashboard() {
               <Gem className="text-amber-600 dark:text-amber-400" size={20} />
             </div>
             <p className="stat-value">{data.today_gold_price ?? "N/A"}</p>
-            <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">Per tola today</p>
+            <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
+              Per tola today
+            </p>
           </div>
           <div className="stat-card">
             <div className="flex items-center justify-between">
               <p className="stat-label">Silver price</p>
-              <Wallet className="text-stone-500 dark:text-stone-400" size={20} />
+              <Wallet
+                className="text-stone-500 dark:text-stone-400"
+                size={20}
+              />
             </div>
             <p className="stat-value">{data.today_silver_price ?? "N/A"}</p>
-            <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">Per tola today</p>
+            <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
+              Per tola today
+            </p>
           </div>
           <div className="stat-card">
             <div className="flex items-center justify-between">
               <p className="stat-label">Price note</p>
-              <TrendingUp className="text-emerald-600 dark:text-emerald-400" size={20} />
+              <TrendingUp
+                className="text-emerald-600 dark:text-emerald-400"
+                size={20}
+              />
             </div>
             <p className="mt-2 text-lg font-bold text-stone-950 dark:text-stone-100">
               {data.price_note || "No note added"}
@@ -121,19 +137,28 @@ function Dashboard() {
             <div className="panel-header flex items-center justify-between">
               <div>
                 <p className="eyebrow">Inventory</p>
-                <h2 className="text-lg font-bold text-stone-950 dark:text-stone-100">Gold stock</h2>
+                <h2 className="text-lg font-bold text-stone-950 dark:text-stone-100">
+                  Gold stock
+                </h2>
               </div>
-              <Package className="text-amber-600 dark:text-amber-400" size={20} />
+              <Package
+                className="text-amber-600 dark:text-amber-400"
+                size={20}
+              />
             </div>
             <div className="panel-body">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <p className="stat-label">Total items</p>
-                  <p className="stat-value">{data.gold_inventory.total_items}</p>
+                  <p className="stat-value">
+                    {data.gold_inventory.total_items}
+                  </p>
                 </div>
                 <div>
                   <p className="stat-label">Total value</p>
-                  <p className="stat-value">{data.gold_inventory.total_value}</p>
+                  <p className="stat-value">
+                    {data.gold_inventory.total_value}
+                  </p>
                 </div>
               </div>
               {renderTypeBreakdown(data.gold_inventory.items_by_types, "gold")}
@@ -148,7 +173,10 @@ function Dashboard() {
                   Silver stock
                 </h2>
               </div>
-              <Package className="text-stone-500 dark:text-stone-400" size={20} />
+              <Package
+                className="text-stone-500 dark:text-stone-400"
+                size={20}
+              />
             </div>
             <div className="panel-body">
               <div className="grid gap-4 sm:grid-cols-2">
@@ -176,7 +204,9 @@ function Dashboard() {
         <section className="panel mt-6">
           <div className="panel-header">
             <p className="eyebrow">This month</p>
-            <h2 className="text-lg font-bold text-stone-950 dark:text-stone-100">Sales report</h2>
+            <h2 className="text-lg font-bold text-stone-950 dark:text-stone-100">
+              Sales report
+            </h2>
           </div>
           <div className="panel-body grid gap-4 md:grid-cols-3">
             <div className="rounded-lg bg-amber-50 p-4 dark:bg-amber-900/20">
